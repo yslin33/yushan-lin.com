@@ -1,0 +1,277 @@
+---
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+
+    <meta name="color-scheme" content="light" />
+
+    <title>Yu-Shan Lin</title>
+
+    <meta
+      name="description"
+      content="Yu-Shan Lin — architectural design, observation, and writing."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <a class="site-name" href="/">Yu-Shan Lin</a>
+
+      <nav aria-label="Primary navigation">
+        <a href="/about">About</a>
+        <a href="/notes">Notes</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="intro">
+        <p class="description">
+          I’m an architectural designer<br />
+          exploring how spaces are made, experienced, observed, and remembered.
+        </p>
+
+        <ul class="project-list">
+          <li>
+            <a href="/projects/soft-edges-hard-grids">
+              Soft Edges, Hard Grids
+            </a>
+          </li>
+
+          <li>
+            <a href="/projects/porous-stratification">
+              Porous Stratification
+            </a>
+          </li>
+
+          <li>
+            <a href="/projects/visions-in-beitou">
+              Visions in Beitou / Beitou in Visions: 2024 Memorial
+            </a>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Philadelphia, PA</span>
+
+      <time
+        id="philadelphia-time"
+        aria-label="Current time in Philadelphia"
+      >
+        --:--:-- ET
+      </time>
+    </footer>
+
+    <script>
+      const timeElement = document.querySelector("#philadelphia-time");
+
+      function updatePhiladelphiaTime() {
+        if (!(timeElement instanceof HTMLTimeElement)) return;
+
+        const now = new Date();
+
+        const time = new Intl.DateTimeFormat("en-US", {
+          timeZone: "America/New_York",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        }).format(now);
+
+        timeElement.textContent = `${time} ET`;
+        timeElement.dateTime = now.toISOString();
+      }
+
+      updatePhiladelphiaTime();
+      window.setInterval(updatePhiladelphiaTime, 1000);
+    </script>
+  </body>
+</html>
+
+<style>
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  :global(html) {
+    background-color: #fafafa;
+    color: #626262;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 14px;
+    color-scheme: light;
+  }
+
+  :global(body) {
+    min-height: 100vh;
+    margin: 0;
+    background-color: #fafafa;
+  }
+
+  :global(a) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    padding: 30px;
+  }
+
+  .site-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .site-header,
+  .site-header a,
+  .site-footer {
+    color: #2c2c2c;
+  }
+
+  .site-name {
+    font-weight: 500;
+    letter-spacing: 0.015em;
+  }
+
+  nav {
+    display: flex;
+    gap: 20px;
+  }
+
+  nav a,
+  .site-name,
+  .project-list a {
+    transition:
+      color 150ms ease,
+      transform 150ms ease;
+  }
+
+  nav a:hover,
+  nav a:focus-visible,
+  .site-name:hover,
+  .site-name:focus-visible,
+  .project-list a:hover,
+  .project-list a:focus-visible {
+    color: #111111;
+  }
+
+  main {
+    position: relative;
+  }
+
+  .intro {
+    position: absolute;
+    top: 50%;
+    left: 52%;
+    width: max-content;
+    max-width: calc(100vw - 60px);
+    transform: translate(-50%, -50%);
+  }
+
+  .description {
+    margin: 0 0 28px;
+    line-height: 1.42;
+  }
+
+  .project-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    white-space: nowrap;
+  }
+
+  .project-list li {
+    line-height: 1.5;
+  }
+
+  .project-list a {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  .project-list a::before {
+    content: "→";
+    flex: 0 0 auto;
+    margin-right: 9px;
+  }
+
+  .project-list a:hover,
+  .project-list a:focus-visible {
+    transform: translateX(2px);
+  }
+
+  .site-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    font-size: 10.5px;
+    letter-spacing: 0.01em;
+  }
+
+  #philadelphia-time {
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 900px) {
+    .intro {
+      left: 50%;
+      width: min(620px, 72vw);
+    }
+
+    .project-list {
+      white-space: normal;
+    }
+  }
+
+  @media (max-width: 720px) {
+    body {
+      padding: 22px;
+    }
+
+    nav {
+      gap: 12px;
+    }
+
+    .intro {
+      position: static;
+      width: 100%;
+      max-width: 100%;
+      margin-top: 30vh;
+      transform: none;
+    }
+
+    .description {
+      max-width: 100%;
+    }
+
+    .project-list {
+      white-space: normal;
+    }
+
+    .site-footer {
+      margin-top: 100px;
+      font-size: 10px;
+    }
+  }
+</style>
