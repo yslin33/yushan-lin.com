@@ -1,0 +1,66 @@
+---
+interface Props {
+  message?: string;
+}
+
+const { message = "In progress." } = Astro.props;
+---
+
+<main class="page">
+  <div class="status">
+    <span class="loader" aria-hidden="true"></span>
+    <p>{message}</p>
+  </div>
+</main>
+
+<style>
+  .page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 30px;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #626262;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .status p {
+    margin: 0;
+    line-height: 1;
+  }
+
+  .loader {
+    width: 13px;
+    height: 13px;
+    border: 1.5px solid #b8b8b8;
+    border-top-color: #303030;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (max-width: 720px) {
+    .page {
+      padding: 22px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loader {
+      animation: none;
+    }
+  }
+</style>

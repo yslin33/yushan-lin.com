@@ -1,0 +1,226 @@
+---
+import Header from "../components/Header.astro";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+
+    <meta name="color-scheme" content="light" />
+
+    <title>About | Yu-Shan Lin</title>
+
+    <meta
+      name="description"
+      content="About Yu-Shan Lin, an architectural designer based between Taipei and Philadelphia."
+    />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=4" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <Header />
+
+    <main class="about-page">
+      <div class="about-content">
+        <section class="intro" aria-labelledby="about-heading">
+          <h1 id="about-heading">About</h1>
+
+          <p>
+            Yu-Shan Lin is an architectural designer based between Taipei and
+            Philadelphia.
+          </p>
+
+          <p>
+            Her work explores memory, atmosphere, and the experience of
+            architecture through drawing, making, photography, and writing.
+          </p>
+        </section>
+
+        <section aria-labelledby="education-heading">
+          <h2 id="education-heading">Education</h2>
+
+          <div class="entry">
+            <p>University of Pennsylvania</p>
+            <p>Master of Architecture '28</p>
+          </div>
+
+          <div class="entry">
+            <p>National Taipei University of Technology</p>
+            <p>B.S. in Architecture '24</p>
+          </div>
+        </section>
+
+        <section aria-labelledby="experience-heading">
+          <h2 id="experience-heading">Experience</h2>
+
+          <div class="entry">
+            <p>Fab Lab Technician</p>
+            <p>University of Pennsylvania</p>
+          </div>
+
+          <div class="entry">
+            <p>Architectural Designer</p>
+            <p>Fieldscape Architects + Planners</p>
+          </div>
+
+          <div class="entry">
+            <p>Interior Designer</p>
+            <p>Cozy Nest Interior Design</p>
+          </div>
+        </section>
+
+        <section aria-labelledby="elsewhere-heading">
+          <h2 id="elsewhere-heading">Elsewhere</h2>
+
+          <div class="links">
+            <a
+              href="mailto:yslin33@design.upenn.edu"
+            >
+              Email
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/yslin33/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+
+            <a
+              href="https://www.instagram.com/yushan.lin_archives?igsh=dHh5OWdremY3YnB0&utm_source=qr"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram
+            </a>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  :global(html) {
+    background-color: #fafafa;
+    color: #626262;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 14px;
+    color-scheme: light;
+  }
+
+  :global(body) {
+    min-height: 100vh;
+    margin: 0;
+    background-color: #fafafa;
+  }
+
+  .about-page {
+    min-height: 100vh;
+    padding: 150px 30px 100px;
+  }
+
+  .about-content {
+    width: min(100%, 520px);
+    margin: 0 auto;
+  }
+
+  section + section {
+    margin-top: 64px;
+  }
+
+  h1,
+  h2,
+  p {
+    margin: 0;
+  }
+
+  h1,
+  h2 {
+    color: #2c2c2c;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  h1,
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .intro p {
+    max-width: 490px;
+    line-height: 1.55;
+  }
+
+  .intro p + p {
+    margin-top: 16px;
+  }
+
+  .entry + .entry {
+    margin-top: 20px;
+  }
+
+  .entry p {
+    line-height: 1.45;
+  }
+
+  .entry p:first-child {
+    color: #2c2c2c;
+  }
+
+  .links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .links a {
+    color: inherit;
+    text-decoration: none;
+    transition:
+      color 150ms ease,
+      transform 150ms ease;
+  }
+
+  .links a:hover,
+  .links a:focus-visible {
+    color: #111111;
+    transform: translateX(2px);
+  }
+
+  @media (max-width: 720px) {
+    .about-page {
+      padding: 120px 22px 80px;
+    }
+
+    .about-content {
+      margin: 0;
+    }
+
+    section + section {
+      margin-top: 52px;
+    }
+  }
+</style>
