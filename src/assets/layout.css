@@ -6,11 +6,9 @@
 .content-column {
   width: min(
     var(--content-max-width),
-    calc(100vw - (var(--page-padding) * 2))
+    calc(100% - (var(--page-padding) * 2))
   );
-
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
 }
 
 @media (max-width: 720px) {
@@ -19,8 +17,7 @@
   }
 
   .content-column {
-    width: calc(100vw - (var(--page-padding) * 2));
-    margin-left: var(--page-padding);
-    margin-right: var(--page-padding);
+    width: calc(100% - (var(--page-padding) * 2));
+    margin-inline: auto;
   }
 }
