@@ -7,7 +7,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   description="Yu-Shan Lin — architectural design, observation, and writing."
 >
   <main class="home-main">
-    <section class="intro content-column">
+    <section class="intro content-column text-column">
       <p class="description">
         Exploring how spaces are made, experienced, and remembered.
       </p>
@@ -91,9 +91,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   .description {
+    max-width: 450px;
     margin: 0 0 32px;
     line-height: 1.45;
-    max-width: 450px;
   }
 
   .project-list {
@@ -156,6 +156,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       left: auto;
       margin-top: 30vh;
       transform: none;
+    }
+
+    .description {
+      max-width: 100%;
     }
 
     .project-list {

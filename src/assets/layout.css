@@ -1,6 +1,7 @@
 :root {
   --page-padding: 30px;
   --content-max-width: 520px;
+  --text-max-width: 450px;
 }
 
 .content-column {
@@ -11,6 +12,11 @@
   margin-inline: auto;
 }
 
+/* Home、About 等純文字頁使用 */
+.text-column {
+  max-width: var(--text-max-width);
+}
+
 @media (max-width: 720px) {
   :root {
     --page-padding: 22px;
@@ -19,5 +25,9 @@
   .content-column {
     width: calc(100% - (var(--page-padding) * 2));
     margin-inline: auto;
+  }
+
+  .text-column {
+    max-width: none;
   }
 }
