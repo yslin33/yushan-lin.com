@@ -1,34 +1,26 @@
 :root {
   --page-padding: 30px;
-  --content-left: 35.5vw;
   --content-max-width: 520px;
 }
 
 .content-column {
   width: min(
     var(--content-max-width),
-    calc(100vw - var(--content-left) - var(--page-padding))
+    calc(100vw - (var(--page-padding) * 2))
   );
 
-  margin-left: var(--content-left);
-  margin-right: var(--page-padding);
-}
-
-@media (max-width: 900px) {
-  :root {
-    --content-left: 30vw;
-  }
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (max-width: 720px) {
   :root {
     --page-padding: 22px;
-    --content-left: 22px;
   }
 
   .content-column {
-    width: calc(100vw - 44px);
-    margin-left: var(--content-left);
+    width: calc(100vw - (var(--page-padding) * 2));
+    margin-left: var(--page-padding);
     margin-right: var(--page-padding);
   }
 }
