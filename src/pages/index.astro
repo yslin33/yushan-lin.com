@@ -11,7 +11,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <section class="intro">
         <div class="content-column">
           <div class="text-column intro-content">
-            <p class="description">
+            <p class="description type-body">
               Exploring how spaces are made, experienced, and remembered.
             </p>
 
@@ -97,7 +97,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   .description {
     margin: 0 0 var(--space-lg);
-    line-height: 1.45;
   }
 
   .project-list {
@@ -109,6 +108,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   .project-list li {
     line-height: 1.5;
+  }
+
+  .project-list li + li {
+    margin-top: 10px;
   }
 
   .project-list a {
@@ -139,9 +142,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     margin-inline: auto;
     padding-bottom: var(--page-padding);
     color: var(--color-muted);
-    font-size: var(--text-xs);
+    font-family:
+      Calibri,
+      "Helvetica Neue",
+      Arial,
+      sans-serif;
+    font-size: 11.5px;
+    font-weight: 400;
     line-height: var(--line-height-normal);
-    letter-spacing: 0.01em;
+    letter-spacing: 0.015em;
   }
 
   #philadelphia-time {

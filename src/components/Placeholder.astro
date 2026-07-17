@@ -8,7 +8,7 @@ const { message = "In progress." } = Astro.props;
 
 <div class="status" role="status" aria-live="polite">
   <span class="loader" aria-hidden="true"></span>
-  <p>{message}</p>
+  <p class="type-body">{message}</p>
 </div>
 
 <style>
@@ -17,13 +17,10 @@ const { message = "In progress." } = Astro.props;
     align-items: center;
     gap: 10px;
     color: var(--color-muted);
-    font-size: var(--text-sm);
-    font-weight: 400;
   }
 
   .status p {
     margin: 0;
-    line-height: 1;
   }
 
   .loader {
