@@ -6,44 +6,50 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   title="Yu-Shan Lin"
   description="Yu-Shan Lin — architectural design, observation, and writing."
 >
-  <main class="home-main">
-    <section class="intro content-column text-column">
-      <p class="description">
-        Exploring how spaces are made, experienced, and remembered.
-      </p>
+  <div class="home-page">
+    <main class="home-main">
+      <section class="intro">
+        <div class="content-column">
+          <div class="text-column intro-content">
+            <p class="description">
+              Exploring how spaces are made, experienced, and remembered.
+            </p>
 
-      <ul class="project-list">
-        <li>
-          <a href="/projects/soft-edges-hard-grids">
-            Soft Edges, Hard Grids
-          </a>
-        </li>
+            <ul class="project-list">
+              <li>
+                <a href="/projects/soft-edges-hard-grids">
+                  Soft Edges, Hard Grids
+                </a>
+              </li>
 
-        <li>
-          <a href="/projects/porous-stratification">
-            Porous Stratification
-          </a>
-        </li>
+              <li>
+                <a href="/projects/porous-stratification">
+                  Porous Stratification
+                </a>
+              </li>
 
-        <li>
-          <a href="/projects/visions-in-beitou">
-            Visions in Beitou / Beitou in Visions: 2024 Memorial
-          </a>
-        </li>
-      </ul>
-    </section>
-  </main>
+              <li>
+                <a href="/projects/visions-in-beitou">
+                  Visions in Beitou / Beitou in Visions: 2024 Memorial
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
 
-  <footer class="site-footer">
-    <span>Philadelphia, PA</span>
+    <footer class="site-footer">
+      <span>Philadelphia, PA</span>
 
-    <time
-      id="philadelphia-time"
-      aria-label="Current time in Philadelphia"
-    >
-      --:--:-- ET
-    </time>
-  </footer>
+      <time
+        id="philadelphia-time"
+        aria-label="Current time in Philadelphia"
+      >
+        --:--:-- ET
+      </time>
+    </footer>
+  </div>
 
   <script>
     const timeElement = document.querySelector("#philadelphia-time");
@@ -71,11 +77,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 </BaseLayout>
 
 <style>
-  :global(body) {
+  .home-page {
     display: grid;
     grid-template-rows: 1fr auto;
     min-height: 100vh;
-    padding: 30px;
   }
 
   .home-main {
@@ -86,13 +91,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   .intro {
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 100%;
+    transform: translateY(-50%);
   }
 
   .description {
-    max-width: 450px;
-    margin: 0 0 32px;
+    margin: 0 0 var(--space-lg);
     line-height: 1.45;
   }
 
@@ -131,8 +135,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    color: #2c2c2c;
-    font-size: 10.5px;
+    width: calc(100% - (var(--page-padding) * 2));
+    margin-inline: auto;
+    padding-bottom: var(--page-padding);
+    color: var(--color-muted);
+    font-size: var(--text-xs);
+    line-height: var(--line-height-normal);
     letter-spacing: 0.01em;
   }
 
@@ -147,28 +155,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   @media (max-width: 720px) {
-    :global(body) {
-      padding: 22px;
-    }
-
     .intro {
       position: static;
-      left: auto;
+      width: auto;
       margin-top: 30vh;
       transform: none;
     }
 
-    .description {
-      max-width: 100%;
-    }
-
-    .project-list {
-      white-space: normal;
-    }
-
     .site-footer {
       margin-top: 100px;
-      font-size: 10px;
     }
   }
 </style>

@@ -1,9 +1,39 @@
 :root {
+  /* Page */
   --page-padding: 30px;
+
+  /* Grid */
   --content-max-width: 520px;
   --text-max-width: 450px;
+  --project-max-width: 1120px;
+
+  /* Spacing */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 48px;
+  --space-xl: 80px;
+  --space-2xl: 120px;
+
+  /* Typography sizes */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 16px;
+  --text-lg: 20px;
+
+  /* Typography rhythm */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.65;
+
+  /* Tone */
+  --color-text: #222;
+  --color-muted: #666;
+  --color-faint: #999;
 }
 
+/* Narrow page container:
+   Home, About, Notes, project introductions */
 .content-column {
   width: min(
     var(--content-max-width),
@@ -12,22 +42,89 @@
   margin-inline: auto;
 }
 
-/* Home、About 等純文字頁使用 */
+/* Reading text sits centrally inside the content container */
 .text-column {
+  width: 100%;
   max-width: var(--text-max-width);
+  margin-inline: auto;
+}
+
+/* Wide project container:
+   hero images, galleries, drawings, split layouts */
+.project-container {
+  width: min(
+    var(--project-max-width),
+    calc(100% - (var(--page-padding) * 2))
+  );
+  margin-inline: auto;
+}
+
+/* Shared text behavior */
+.text-column,
+.project-text {
+  text-align: left;
+}
+
+/* Basic typography roles */
+.type-title {
+  font-size: var(--text-lg);
+  line-height: var(--line-height-tight);
+  font-weight: 600;
+}
+
+.type-section {
+  font-size: var(--text-sm);
+  line-height: var(--line-height-normal);
+  font-weight: 500;
+}
+
+.type-body {
+  font-size: var(--text-md);
+  line-height: var(--line-height-relaxed);
+  font-weight: 400;
+}
+
+.type-meta,
+.type-caption,
+.type-nav {
+  font-size: var(--text-xs);
+  line-height: var(--line-height-normal);
+}
+
+.type-meta,
+.type-caption {
+  color: var(--color-muted);
+}
+
+/* Desktop split layout */
+.split-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.8fr);
+  gap: var(--space-lg);
+  align-items: start;
 }
 
 @media (max-width: 720px) {
   :root {
     --page-padding: 22px;
+
+    --space-xl: 64px;
+    --space-2xl: 88px;
+
+    --text-lg: 18px;
   }
 
-  .content-column {
+  .content-column,
+  .project-container {
     width: calc(100% - (var(--page-padding) * 2));
-    margin-inline: auto;
   }
 
   .text-column {
     max-width: none;
+  }
+
+  .split-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
   }
 }

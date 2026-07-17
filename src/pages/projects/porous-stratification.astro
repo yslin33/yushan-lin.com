@@ -5,7 +5,26 @@ import Placeholder from "../../components/Placeholder.astro";
 
 <BaseLayout
   title="Porous Stratification | Yu-Shan Lin"
-  description="Porous Stratification — academic project by Yu-Shan Lin."
+  description="Porous Stratification — an architectural project by Yu-Shan Lin."
 >
-  <Placeholder />
+  <main class="placeholder-page">
+    <Placeholder message="In progress." />
+  </main>
 </BaseLayout>
+
+<style>
+  .placeholder-page {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    padding: var(--page-padding);
+    pointer-events: none;
+  }
+
+  .placeholder-page :global(*) {
+    pointer-events: auto;
+  }
+</style>

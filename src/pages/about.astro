@@ -7,76 +7,79 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   description="About Yu-Shan Lin, an architectural designer based between Taipei and Philadelphia."
 >
   <main class="about-page">
-    <div class="content-column about-column">
-      <section class="intro">
-        <p>
-          Yu-Shan Lin is an architectural designer based between Taipei and Philadelphia.
-        </p>
+    <div class="content-column">
+      <div class="text-column about-column">
+        <section class="intro">
+          <p>
+            Yu-Shan Lin is an architectural designer based between Taipei and
+            Philadelphia.
+          </p>
 
-        <p>
-          Her work explores memory, atmosphere, and the experience of
-          architecture through drawing, making, photography, and writing.
-        </p>
-      </section>
+          <p>
+            Her work explores memory, atmosphere, and the experience of
+            architecture through drawing, making, photography, and writing.
+          </p>
+        </section>
 
-      <section>
-        <h2>Education</h2>
+        <section>
+          <h2>Education</h2>
 
-        <div class="entry">
-          <p>Master of Architecture '28</p>
-          <p>University of Pennsylvania</p>
-        </div>
+          <div class="entry">
+            <p>Master of Architecture '28</p>
+            <p>University of Pennsylvania</p>
+          </div>
 
-        <div class="entry">
-          <p>B.S. in Architecture '24</p>
-          <p>National Taipei University of Technology</p>
-        </div>
-      </section>
+          <div class="entry">
+            <p>B.S. in Architecture '24</p>
+            <p>National Taipei University of Technology</p>
+          </div>
+        </section>
 
-      <section>
-        <h2>Experience</h2>
+        <section>
+          <h2>Experience</h2>
 
-        <div class="entry">
-          <p>Fab Lab Technician</p>
-          <p>University of Pennsylvania</p>
-        </div>
+          <div class="entry">
+            <p>Fab Lab Technician</p>
+            <p>University of Pennsylvania</p>
+          </div>
 
-        <div class="entry">
-          <p>Architectural Designer</p>
-          <p>Fieldscape Architects + Planners</p>
-        </div>
+          <div class="entry">
+            <p>Architectural Designer</p>
+            <p>Fieldscape Architects + Planners</p>
+          </div>
 
-        <div class="entry">
-          <p>Interior Designer</p>
-          <p>Cozy Nest Interior Design</p>
-        </div>
-      </section>
+          <div class="entry">
+            <p>Interior Designer</p>
+            <p>Cozy Nest Interior Design</p>
+          </div>
+        </section>
 
-      <section>
-        <h2>Elsewhere</h2>
+        <section>
+          <h2>Elsewhere</h2>
 
-        <div class="links">
-          <a href="mailto:yslin33@design.upenn.edu">
-            Email
-          </a>
+          <div class="links">
+            <a href="mailto:yslin33@design.upenn.edu">
+              Email
+            </a>
 
-          <a
-            href="https://www.instagram.com/yushan.lin_archives"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Instagram
-          </a>
+            <a
+              href="https://www.instagram.com/yushan.lin_archives"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram
+            </a>
 
-          <a
-            href="https://www.linkedin.com/in/yslin33/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn
-          </a>
-        </div>
-      </section>
+            <a
+              href="https://www.linkedin.com/in/yslin33/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+          </div>
+        </section>
+      </div>
     </div>
   </main>
 </BaseLayout>
@@ -84,7 +87,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 <style>
   .about-page {
     min-height: 100vh;
-    padding: 150px 0px 100px;
+    padding: 150px 0 100px;
   }
 
   section + section {
@@ -104,8 +107,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     letter-spacing: 0.01em;
   }
 
-  .intro p {
-    max-width: 450px;
+  .intro p,
+  .entry p {
     line-height: 1.45;
   }
 
@@ -115,10 +118,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   .entry + .entry {
     margin-top: 20px;
-  }
-
-  .entry p {
-    line-height: 1.45;
   }
 
   .entry p:first-child {
@@ -148,7 +147,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   @media (max-width: 720px) {
     .about-page {
-      padding: 120px 0px 80px;
+      padding: 120px 0 80px;
     }
 
     section + section {

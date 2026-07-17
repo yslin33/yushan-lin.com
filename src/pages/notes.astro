@@ -7,5 +7,24 @@ import Placeholder from "../components/Placeholder.astro";
   title="Notes | Yu-Shan Lin"
   description="Notes by Yu-Shan Lin on architecture, observation, cities, and memory."
 >
-  <Placeholder />
+  <main class="notes-page">
+    <Placeholder />
+  </main>
 </BaseLayout>
+
+<style>
+  .notes-page {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    padding: var(--page-padding);
+    pointer-events: none;
+  }
+
+  .notes-page :global(*) {
+    pointer-events: auto;
+  }
+</style>
