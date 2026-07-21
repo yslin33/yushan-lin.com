@@ -1,0 +1,83 @@
+---
+interface Props {
+  inRow?: boolean;
+}
+
+const { inRow = false } = Astro.props;
+const Tag = inRow ? "div" : "footer";
+---
+
+<Tag
+  class:list={[
+    "copyright-footer type-nav type-colophon",
+    {
+      "content-column": !inRow,
+      "copyright-footer--in-row": inRow,
+    },
+  ]}
+>
+  <p>
+    <span>© 2026 Yu-Shan Lin</span>
+    <span class="copyright-footer__separator" aria-hidden="true">·</span>
+    <span>Images and text may not be reproduced without permission.</span>
+  </p>
+</Tag>
+
+<style>
+  .copyright-footer {
+    padding: 24px 0 var(--page-padding);
+    color: var(--color-muted);
+    font-size: 8.75px;
+    opacity: 0.4;
+    text-align: center;
+  }
+
+  .copyright-footer p {
+    margin: 0;
+  }
+
+  .copyright-footer__separator {
+    margin-inline: 0.75em;
+  }
+
+  .copyright-footer--in-row {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    justify-self: center;
+  }
+
+  @media (max-width: 720px) {
+    .copyright-footer {
+      padding-top: 8px;
+      text-align: left;
+    }
+
+    .copyright-footer--in-row {
+      flex: 0 0 100%;
+      margin-top: 0;
+      order: 3;
+    }
+
+    .copyright-footer p {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: clamp(0px, calc((100vw - 375px) * 0.2), 0.5rem);
+    }
+
+    .copyright-footer .copyright-footer__separator {
+      display: none;
+    }
+
+    .copyright-footer p > span:first-child,
+    .copyright-footer p > span:last-child {
+      white-space: nowrap;
+    }
+
+    .copyright-footer p > span:last-child {
+      text-align: right;
+    }
+  }
+
+</style>

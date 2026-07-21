@@ -6,7 +6,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   title="About | Yu-Shan Lin"
   description="About Yu-Shan Lin, an architectural designer based between Taipei and Philadelphia."
 >
-  <main class="about-page">
+  <main class="about-page mobile-content-start">
     <div class="content-column">
       <div class="text-column about-column type-body">
         <section class="intro">
@@ -22,7 +22,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </section>
 
         <section>
-          <h2>Education</h2>
+          <h2 class="type-nav">Education</h2>
 
           <div class="entry">
             <p>Master of Architecture '28</p>
@@ -36,7 +36,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </section>
 
         <section>
-          <h2>Experience</h2>
+          <h2 class="type-nav">Experience</h2>
 
           <div class="entry">
             <p>Fab Lab Technician</p>
@@ -55,7 +55,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </section>
 
         <section>
-          <h2>Elsewhere</h2>
+          <h2 class="type-nav">Elsewhere</h2>
 
           <div class="links">
             <a href="mailto:yslin33@design.upenn.edu">
@@ -106,15 +106,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   h2 {
     margin-bottom: 16px;
     color: #2c2c2c;
-    font-family:
-      Calibri,
-      "Helvetica Neue",
-      Arial,
-      sans-serif;
-    font-size: 11.5px;
-    font-weight: 400;
-    line-height: 1.25;
-    letter-spacing: 0.015em;
   }
 
   .intro p,
@@ -129,7 +120,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   .entry + .entry {
-    margin-top: 22px;
+    margin-top: var(--space-entry);
   }
 
   .entry p:first-child {
@@ -163,20 +154,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   @media (max-width: 720px) {
     .about-page {
-      padding: 120px 0 80px;
+      padding-bottom: 80px;
     }
 
     section + section {
       margin-top: 52px;
     }
 
-    h2 {
-      margin-bottom: 16px;
-      font-size: 11.5px;
-    }
-
-    .entry + .entry {
-      margin-top: 20px;
-    }
   }
 </style>

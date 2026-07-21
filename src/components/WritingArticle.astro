@@ -1,0 +1,228 @@
+---
+import ArtworkImage from "./ArtworkImage.astro";
+import LanguageSwitch from "./LanguageSwitch.astro";
+
+interface Props {
+  title: string;
+  date: string;
+  currentLanguage: "en" | "zh";
+  englishHref: string;
+  chineseHref: string;
+  image: string;
+  imageAlt: string;
+  imageCaption: string;
+}
+
+const {
+  title,
+  date,
+  currentLanguage,
+  englishHref,
+  chineseHref,
+  image,
+  imageAlt,
+  imageCaption,
+} = Astro.props;
+---
+
+<main
+  class="writing-page mobile-content-start"
+  lang={currentLanguage === "zh" ? "zh-Hant" : "en"}
+>
+  <article class="content-column">
+    <div class="text-column writing-article">
+      <div class="writing-article__meta-row">
+        <time class="type-nav editorial-meta" datetime={date.replace(".", "-")}>{date}</time>
+        <LanguageSwitch
+          currentLanguage={currentLanguage}
+          englishHref={englishHref}
+          chineseHref={chineseHref}
+        />
+      </div>
+
+      <h1 class="writing-article__title">{title}</h1>
+
+      <hr />
+
+      <slot name="editors-note" />
+
+      <figure>
+        <ArtworkImage
+          class="writing-article__image"
+          src={image}
+          alt={imageAlt}
+          loading="eager"
+        />
+        <figcaption class="type-colophon">{imageCaption}</figcaption>
+      </figure>
+
+      <div class="writing-article__body type-body">
+        <slot />
+      </div>
+    </div>
+  </article>
+</main>
+
+<style>
+  .writing-page {
+    min-height: 100vh;
+    padding: 150px 0 100px;
+  }
+
+  .writing-article {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    color: #4f4f4f;
+  }
+
+  .writing-article__meta-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-md);
+  }
+
+  h1,
+  p,
+  figure {
+    margin: 0;
+  }
+
+  h1 {
+    color: #2c2c2c;
+  }
+
+  .writing-article__title {
+    margin: 0;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: var(--text-lg);
+    font-weight: 400;
+    line-height: var(--line-height-tight);
+  }
+
+  hr {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid #e5e5e5;
+  }
+
+  :global(.writing-article__image) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  figcaption {
+    margin-top: var(--space-xs);
+    text-align: right;
+  }
+
+  .writing-article__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    color: #3f3f3f;
+  }
+
+  .writing-article__body :global(h2),
+  .writing-article__body :global(p) {
+    margin: 0;
+  }
+
+  .writing-article__body :global(h2) {
+    color: #2c2c2c;
+  }
+
+  .writing-article__body :global(strong) {
+    color: #2c2c2c;
+    font-weight: 600;
+  }
+
+  .writing-article__body :global(.references-divider) {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid #e5e5e5;
+  }
+
+  .writing-article__body :global(.references-heading) {
+    color: var(--color-muted);
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 8.75px;
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: normal;
+    opacity: 0.4;
+  }
+
+  .writing-article__body :global(.reference-entry) {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .writing-article__body :global(.references-list) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .writing-article__body :global(.reference-entry) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .writing-article__body :global(.reference-entry)::before {
+    content: "．";
+  }
+
+  .writing-article__body :global(.reference-continuation) {
+    display: block;
+    white-space: pre-wrap;
+  }
+
+  .writing-page[lang="zh-Hant"] .writing-article__title,
+  .writing-page[lang="zh-Hant"] .writing-article__body,
+  .writing-page[lang="zh-Hant"] :global(.editors-note) {
+    font-family:
+      "Source Serif 4",
+      "Noto Serif TC",
+      Georgia,
+      serif;
+  }
+
+  .writing-page[lang="zh-Hant"] .writing-article__title {
+    font-weight: 500;
+  }
+
+  .writing-page[lang="zh-Hant"] .writing-article__body {
+    color: #2f2f2f;
+    line-height: 1.58;
+    letter-spacing: normal;
+  }
+
+  .writing-page[lang="zh-Hant"] .writing-article__body :global(strong) {
+    color: #1f1f1f;
+    font-weight: 600;
+  }
+
+  .writing-page[lang="zh-Hant"] .writing-article__body :global(.reference-entry) {
+    font-family:
+      Arial,
+      "Helvetica Neue",
+      Helvetica,
+      "Noto Serif TC",
+      sans-serif;
+  }
+
+  @media (max-width: 720px) {
+    .writing-page {
+      padding-bottom: 80px;
+    }
+  }
+</style>

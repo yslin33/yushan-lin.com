@@ -1,0 +1,46 @@
+---
+interface Props {
+  currentLanguage: "en" | "zh";
+  englishHref: string;
+  chineseHref: string;
+}
+
+const { currentLanguage, englishHref, chineseHref } = Astro.props;
+---
+
+<nav class="language-switch type-nav editorial-meta" aria-label="Page language">
+  {
+    currentLanguage === "en" ? (
+      <span aria-current="page">English</span>
+    ) : (
+      <a href={englishHref}>English</a>
+    )
+  }
+  <span class="language-switch__separator" aria-hidden="true">│</span>
+  {
+    currentLanguage === "zh" ? (
+      <span aria-current="page" lang="zh-Hant">中文</span>
+    ) : (
+      <a href={chineseHref} lang="zh-Hant">中文</a>
+    )
+  }
+</nav>
+
+<style>
+  .language-switch {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: baseline;
+    gap: var(--space-xs);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .language-switch [aria-current="page"] {
+    color: #2c2c2c;
+  }
+
+  .language-switch__separator {
+    color: var(--color-faint);
+  }
+</style>

@@ -1,0 +1,80 @@
+---
+import LanguageSwitch from "./LanguageSwitch.astro";
+
+interface Props {
+  title: string;
+  slug: string;
+  date: string;
+  language?: "en" | "zh";
+}
+
+const { title, slug, date, language = "en" } = Astro.props;
+const englishHref = `/writing/${slug}`;
+const chineseHref = `/writing/${slug}-zh`;
+---
+
+<main class="writing-page mobile-content-start" lang={language === "zh" ? "zh-Hant" : "en"}>
+  <article class="content-column">
+    <div class="text-column writing-page__content">
+      <div class="writing-page__meta-row">
+        <time class="type-nav editorial-meta" datetime={date.replace(".", "-")}>{date}</time>
+
+        <LanguageSwitch
+          currentLanguage={language}
+          englishHref={englishHref}
+          chineseHref={chineseHref}
+        />
+      </div>
+
+      <h1 class="type-body">{title}</h1>
+
+      <hr />
+
+      <p class="type-body">Coming soon.</p>
+    </div>
+  </article>
+</main>
+
+<style>
+  .writing-page {
+    min-height: 100vh;
+    padding: 150px 0 100px;
+  }
+
+  .writing-page__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    color: #4f4f4f;
+  }
+
+  h1,
+  p,
+  time {
+    margin: 0;
+  }
+
+  h1 {
+    color: #2c2c2c;
+  }
+
+  .writing-page__meta-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-md);
+  }
+
+  hr {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid #e5e5e5;
+  }
+
+  @media (max-width: 720px) {
+    .writing-page {
+      padding-bottom: 80px;
+    }
+  }
+</style>

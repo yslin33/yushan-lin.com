@@ -24,7 +24,7 @@ const isNotes = currentPath === "/notes";
     <div class="ys-header__pages">
       <a
         href="/about"
-        class="ys-header__link"
+        class="ys-header__link type-nav"
         aria-current={isAbout ? "page" : undefined}
       >
         About
@@ -32,7 +32,7 @@ const isNotes = currentPath === "/notes";
 
       <a
         href="/notes"
-        class="ys-header__link"
+        class="ys-header__link type-nav"
         aria-current={isNotes ? "page" : undefined}
       >
         Notes
@@ -85,10 +85,6 @@ const isNotes = currentPath === "/notes";
     font-size: 14px;
   }
 
-  .ys-header__pages .ys-header__link {
-    font-size: 11.5px;
-  }
-
   .ys-header__link::after {
     position: absolute;
     bottom: -3px;
@@ -120,7 +116,7 @@ const isNotes = currentPath === "/notes";
 
   @media (max-width: 720px) {
     .ys-header {
-      padding: 22px;
+      padding: 18px 20px;
     }
 
     .ys-header__pages {

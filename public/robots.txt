@@ -1,0 +1,11 @@
+User-agent: Googlebot-Image
+Disallow: /images/notes/
+Disallow: /images/projects/
+Disallow: /images/sketches/
+Disallow: /images/photography/
+
+User-agent: *
+Disallow: /images/notes/
+Disallow: /images/projects/
+Disallow: /images/sketches/
+Disallow: /images/photography/

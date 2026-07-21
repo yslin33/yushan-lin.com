@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import CopyrightFooter from "../components/CopyrightFooter.astro";
 ---
 
 <BaseLayout
@@ -40,7 +41,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </main>
 
     <footer class="site-footer">
-      <span>Philadelphia, PA</span>
+      <span class="site-footer__location">Philadelphia, PA</span>
+
+      <CopyrightFooter inRow />
 
       <time
         id="philadelphia-time"
@@ -135,9 +138,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   .site-footer {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: baseline;
     width: calc(100% - (var(--page-padding) * 2));
     margin-inline: auto;
     padding-bottom: var(--page-padding);
@@ -153,7 +156,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     letter-spacing: 0.015em;
   }
 
+  .site-footer__location {
+    justify-self: start;
+  }
+
   #philadelphia-time {
+    justify-self: end;
     font-variant-numeric: tabular-nums;
   }
 
@@ -164,15 +172,31 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   @media (max-width: 720px) {
+    .home-main {
+      display: grid;
+      align-items: center;
+    }
+
     .intro {
       position: static;
       width: auto;
-      margin-top: 30vh;
       transform: none;
     }
 
     .site-footer {
-      margin-top: 100px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-top: 72px;
+    }
+
+    .site-footer__location {
+      order: 1;
+    }
+
+    #philadelphia-time {
+      order: 2;
     }
   }
 </style>

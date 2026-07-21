@@ -1,0 +1,334 @@
+---
+import ArtworkImage from "./ArtworkImage.astro";
+
+interface LightboxItem {
+  image: string;
+  title: string;
+  location: string;
+  date: string;
+}
+
+interface Props {
+  galleries: Record<string, LightboxItem[]>;
+}
+
+const { galleries } = Astro.props;
+const lightboxData = JSON.stringify(galleries).replace(/</g, "\\u003c");
+---
+
+<div
+  class="notes-lightbox"
+  data-notes-lightbox
+  data-open="false"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Image viewer"
+  hidden
+>
+  <button class="notes-lightbox__close" type="button" aria-label="Close image viewer">
+    <span aria-hidden="true">×</span>
+  </button>
+
+  <figure class="notes-lightbox__figure">
+    <ArtworkImage
+      class="notes-lightbox__image"
+      src=""
+      alt=""
+    />
+
+    <figcaption class="notes-lightbox__caption type-nav">
+      <span class="notes-lightbox__title"></span>
+      <span class="notes-lightbox__meta"></span>
+    </figcaption>
+
+    <div class="notes-lightbox__navigation type-nav" aria-label="Image navigation">
+      <button
+        class="lightbox-nav__control"
+        type="button"
+        data-lightbox-direction="-1"
+        aria-label="Previous image"
+      >
+        <span aria-hidden="true">‹</span>
+      </button>
+      <button
+        class="lightbox-nav__control"
+        type="button"
+        data-lightbox-direction="1"
+        aria-label="Next image"
+      >
+        <span aria-hidden="true">›</span>
+      </button>
+    </div>
+  </figure>
+
+  <script type="application/json" data-lightbox-data set:html={lightboxData}></script>
+</div>
+
+<script>
+  const lightbox = document.querySelector<HTMLElement>("[data-notes-lightbox]");
+
+  if (lightbox) {
+    const dataElement = lightbox.querySelector<HTMLScriptElement>("[data-lightbox-data]");
+    const image = lightbox.querySelector<HTMLImageElement>(".notes-lightbox__image");
+    const title = lightbox.querySelector<HTMLElement>(".notes-lightbox__title");
+    const meta = lightbox.querySelector<HTMLElement>(".notes-lightbox__meta");
+    const closeControl = lightbox.querySelector<HTMLButtonElement>(".notes-lightbox__close");
+    const lightboxNavigationControls = lightbox.querySelectorAll<HTMLButtonElement>(
+      ".lightbox-nav__control",
+    );
+
+    type LightboxItem = {
+      image: string;
+      title: string;
+      location: string;
+      date: string;
+    };
+
+    const galleries = dataElement
+      ? (JSON.parse(dataElement.textContent || "{}") as Record<string, LightboxItem[]>)
+      : {};
+
+    let activeFolder = "";
+    let activeIndex = 0;
+    let lastFocusedElement: HTMLElement | null = null;
+    let closeTimer = 0;
+
+    const renderActiveItem = () => {
+      const items = galleries[activeFolder] || [];
+      const item = items[activeIndex];
+      if (!item || !image || !title || !meta) return;
+
+      image.src = item.image;
+      image.alt = item.title;
+      title.textContent = item.title;
+
+      const displayDate = /^\d{4}-\d{2}$/.test(item.date)
+        ? item.date.replace("-", ".")
+        : item.date;
+      const metaText = [item.location, displayDate].filter(Boolean).join(" · ");
+      meta.textContent = metaText;
+      meta.hidden = metaText.length === 0;
+    };
+
+    const showRelativeItem = (offset: number) => {
+      const items = galleries[activeFolder] || [];
+      if (items.length === 0) return;
+      activeIndex = (activeIndex + offset + items.length) % items.length;
+      renderActiveItem();
+    };
+
+    const openLightbox = (folder: string, index: number, trigger: HTMLElement) => {
+      if (!galleries[folder]?.[index]) return;
+
+      window.clearTimeout(closeTimer);
+      activeFolder = folder;
+      activeIndex = index;
+      lastFocusedElement = trigger;
+      renderActiveItem();
+
+      lightbox.hidden = false;
+      document.body.style.overflow = "hidden";
+      window.requestAnimationFrame(() => {
+        lightbox.dataset.open = "true";
+        closeControl?.focus();
+      });
+    };
+
+    const closeLightbox = () => {
+      lightbox.dataset.open = "false";
+      document.body.style.overflow = "";
+      closeTimer = window.setTimeout(() => {
+        lightbox.hidden = true;
+        if (image) image.src = "";
+      }, 180);
+      lastFocusedElement?.focus();
+    };
+
+    document.querySelectorAll<HTMLElement>("[data-lightbox-folder][data-lightbox-index]").forEach(
+      (trigger) => {
+        trigger.addEventListener("click", () => {
+          const folder = trigger.dataset.lightboxFolder || "";
+          const index = Number(trigger.dataset.lightboxIndex || 0);
+          openLightbox(folder, index, trigger);
+        });
+      },
+    );
+
+    closeControl?.addEventListener("click", closeLightbox);
+    lightboxNavigationControls.forEach((control) => {
+      control.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const direction = Number(control.dataset.lightboxDirection || 0);
+        showRelativeItem(direction);
+      });
+    });
+
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (lightbox.hidden) return;
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeLightbox();
+        return;
+      }
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        showRelativeItem(-1);
+        return;
+      }
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        showRelativeItem(1);
+        return;
+      }
+
+      if (event.key === "Tab") {
+        const focusable = Array.from(
+          lightbox.querySelectorAll<HTMLElement>("button:not([disabled]), [href], [tabindex]:not([tabindex='-1'])"),
+        );
+        if (focusable.length === 0) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+  }
+</script>
+
+<style>
+  .notes-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: 5vh 5vw;
+    background: rgba(255, 255, 255, 0.97);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 180ms ease,
+      visibility 0s linear 180ms;
+  }
+
+  .notes-lightbox[data-open="true"] {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .notes-lightbox__figure {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(520px, calc(100vw - 48px));
+    margin: 0;
+  }
+
+  .notes-lightbox__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(100vh - 180px);
+    object-fit: contain;
+  }
+
+  .notes-lightbox__caption {
+    margin-top: 32px;
+    color: #4f4f4f;
+    text-align: center;
+  }
+
+  .notes-lightbox__caption span {
+    display: block;
+  }
+
+  .notes-lightbox__meta[hidden] {
+    display: none;
+  }
+
+  .notes-lightbox__meta {
+    color: #555555;
+  }
+
+  .notes-lightbox__navigation {
+    position: absolute;
+    top: calc(100% + 32px);
+    left: 50%;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    transform: translateX(-50%);
+    color: var(--color-faint);
+  }
+
+  .notes-lightbox button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    appearance: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .notes-lightbox__navigation .lightbox-nav__control {
+    font-size: 15px;
+    opacity: 0.6;
+  }
+
+  .notes-lightbox__navigation .lightbox-nav__control:hover,
+  .notes-lightbox__navigation .lightbox-nav__control:focus-visible,
+  .notes-lightbox__close:hover,
+  .notes-lightbox__close:focus-visible {
+    outline: none;
+    opacity: 0.9;
+  }
+
+  .notes-lightbox__close {
+    position: absolute;
+    top: 28px;
+    right: 30px;
+    color: var(--color-muted);
+    font-size: 20px;
+    line-height: 1;
+    opacity: 0.55;
+  }
+
+  @media (max-width: 720px) {
+    .notes-lightbox {
+      padding: 64px 22px 32px;
+    }
+
+    .notes-lightbox__image {
+      max-height: calc(100vh - 180px);
+    }
+
+    .notes-lightbox__close {
+      top: 22px;
+      right: 22px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .notes-lightbox {
+      transition: none;
+    }
+  }
+</style>
