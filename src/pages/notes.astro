@@ -107,14 +107,21 @@ const sketchNotes = sortArchiveByDate(sketchSource);
 
 const writingNotes = [
   {
+    title: "Kasiboan",
+    href: "/writing/on-kasiboan",
+    date: "2024-07",
+  },
+  {
     title: "The Memory of the City, the Memory of Beitou",
     href: "/writing/the-memory-of-the-city-the-memory-of-beitou",
+    date: "2023-12",
   },
   {
     title: "Collect and Recall",
     href: "/writing/collect-and-recall",
+    date: "2024-12",
   },
-];
+].sort((a, b) => a.date.localeCompare(b.date));
 ---
 
 <BaseLayout
@@ -142,12 +149,19 @@ const writingNotes = [
                   data-lightbox-index={index}
                   data-gallery-slot={index}
                 >
-                  <span>
+                  <span class="visual-note-frame notes-image-wrapper">
                     <ArtworkImage
+                      class="notes-image"
                       src={note.image}
                       alt={`${note.title} — ${note.location}`}
                       loading="lazy"
                     />
+                  </span>
+                  <span class="visual-note-mobile-caption type-nav">
+                    <span data-gallery-caption-title>{note.title}</span>
+                    <span data-gallery-caption-meta>
+                      {note.location} · {note.date.replace("-", ".")}
+                    </span>
                   </span>
                 </button>
               ))
@@ -192,12 +206,19 @@ const writingNotes = [
                   data-lightbox-index={index}
                   data-gallery-slot={index}
                 >
-                  <span>
+                  <span class="visual-note-frame notes-image-wrapper">
                     <ArtworkImage
+                      class="notes-image"
                       src={note.image}
                       alt={`${note.title} — ${note.location}`}
                       loading="lazy"
                     />
+                  </span>
+                  <span class="visual-note-mobile-caption type-nav">
+                    <span data-gallery-caption-title>{note.title}</span>
+                    <span data-gallery-caption-meta>
+                      {note.location} · {note.date.replace("-", ".")}
+                    </span>
                   </span>
                 </button>
               ))
@@ -258,8 +279,27 @@ const writingNotes = [
     const items = JSON.parse(gallery.dataset.galleryItems || "[]") as GalleryItem[];
     const slots = Array.from(gallery.querySelectorAll<HTMLButtonElement>("[data-gallery-slot]"));
     const controls = gallery.querySelectorAll<HTMLButtonElement>(".gallery-nav__control");
+    const mobileGalleryMedia = window.matchMedia("(max-width: 767px)");
     const visibleCount = 3;
     let currentStartIndex = 0;
+
+    const updateImageOrientation = (image: HTMLImageElement) => {
+      const frame = image.closest<HTMLElement>(".notes-image-wrapper");
+      if (!frame || image.naturalWidth === 0 || image.naturalHeight === 0) return;
+
+      frame.classList.remove("is-portrait", "is-landscape");
+      frame.classList.add(
+        image.naturalHeight > image.naturalWidth ? "is-portrait" : "is-landscape",
+      );
+    };
+
+    slots.forEach((slot) => {
+      const image = slot.querySelector<HTMLImageElement>("img");
+      if (!image) return;
+
+      image.addEventListener("load", () => updateImageOrientation(image));
+      if (image.complete) updateImageOrientation(image);
+    });
 
     const updateVisibleItems = () => {
       if (items.length === 0) return;
@@ -280,11 +320,29 @@ const writingNotes = [
 
         const image = slot.querySelector<HTMLImageElement>("img");
         if (image) {
+          image.closest(".notes-image-wrapper")?.classList.remove("is-portrait", "is-landscape");
           image.src = item.image;
           image.alt = [item.title, item.location]
             .filter(Boolean)
             .join(" — ");
+          if (image.complete) updateImageOrientation(image);
         }
+
+        const captionTitle = slot.querySelector<HTMLElement>("[data-gallery-caption-title]");
+        const captionMeta = slot.querySelector<HTMLElement>("[data-gallery-caption-meta]");
+        if (captionTitle) captionTitle.textContent = item.title;
+        if (captionMeta) {
+          const displayDate = /^\d{4}-\d{2}$/.test(item.date)
+            ? item.date.replace("-", ".")
+            : item.date;
+          captionMeta.textContent = [item.location, displayDate].filter(Boolean).join(" · ");
+        }
+      });
+    };
+
+    const updateThumbnailInteraction = () => {
+      slots.forEach((slot) => {
+        slot.disabled = mobileGalleryMedia.matches;
       });
     };
 
@@ -298,6 +356,8 @@ const writingNotes = [
     });
 
     updateVisibleItems();
+    updateThumbnailInteraction();
+    mobileGalleryMedia.addEventListener("change", updateThumbnailInteraction);
   });
 </script>
 
@@ -394,7 +454,7 @@ const writingNotes = [
     opacity: 0.85;
   }
 
-  .visual-note span {
+  .visual-note-frame {
     display: block;
     aspect-ratio: 4 / 3;
     background: #eeeeec;
@@ -408,7 +468,7 @@ const writingNotes = [
     min-width: 0;
   }
 
-  .archive-image-row .visual-note span {
+  .archive-image-row .visual-note-frame {
     width: 100%;
     overflow: hidden;
     border: 0;
@@ -423,6 +483,10 @@ const writingNotes = [
     height: 100%;
     max-width: 100%;
     object-fit: contain;
+  }
+
+  .visual-note-mobile-caption {
+    display: none;
   }
 
   .writing-list {
@@ -470,6 +534,65 @@ const writingNotes = [
 
     .writing-list {
       white-space: normal;
+    }
+  }
+
+  @media (max-width: 767px) {
+    section[data-gallery-root] + section {
+      margin-top: var(--space-md);
+    }
+
+    section[data-gallery-root] h2 {
+      margin-bottom: var(--space-sm);
+    }
+
+    .visual-note-trigger:disabled {
+      cursor: default;
+    }
+
+    .visual-note-frame {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      margin-inline: auto;
+      aspect-ratio: auto;
+      overflow: visible;
+    }
+
+    .notes-image {
+      display: block;
+      height: auto;
+    }
+
+    .notes-image-wrapper.is-landscape .notes-image {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .notes-image-wrapper.is-portrait {
+      display: flex;
+      justify-content: center;
+    }
+
+    .notes-image-wrapper.is-portrait .notes-image {
+      width: auto;
+      max-width: 60%;
+      height: auto;
+    }
+
+    section[data-gallery-root] .visual-note-nav {
+      margin-top: var(--space-sm);
+    }
+
+    .visual-note-mobile-caption {
+      display: block;
+      margin-top: var(--space-xs);
+      color: var(--color-muted);
+      text-align: left;
+    }
+
+    .visual-note-mobile-caption span {
+      display: block;
     }
   }
 

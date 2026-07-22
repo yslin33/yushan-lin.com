@@ -1,0 +1,84 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page Not Found | Yu-Shan Lin"
+  description="This page cannot be found."
+>
+  <main class="not-found-page">
+    <div class="content-column">
+      <div class="text-column not-found-content">
+        <h1 class="type-writing-title">404</h1>
+
+        <div class="not-found-message type-body">
+          <p>This page cannot be found.</p>
+          <p>
+            It may have been moved, removed,<br />
+            or perhaps it has not been published yet.
+          </p>
+        </div>
+
+        <a class="home-link editorial-link type-body" href="/">
+          <span class="editorial-link__arrow" aria-hidden="true">←</span>
+          Home
+        </a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found-page {
+    display: grid;
+    flex: 1;
+    place-items: center;
+    width: 100%;
+    padding: calc(60px + var(--page-padding)) 0 var(--page-padding);
+  }
+
+  .text-column.not-found-content {
+    width: 100%;
+    max-width: 450px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .not-found-content h1,
+  .not-found-content p,
+  .not-found-content .home-link {
+    text-align: center;
+  }
+
+  h1,
+  p {
+    margin: 0;
+  }
+
+  .not-found-message {
+    margin-top: var(--space-sm);
+  }
+
+  .not-found-message p + p {
+    margin-top: var(--space-md);
+  }
+
+  .not-found-message p:first-child {
+    color: var(--color-text);
+  }
+
+  .home-link {
+    margin-top: 32px;
+  }
+
+  .home-link:focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 5px;
+  }
+
+  @media (max-width: 720px) {
+    .not-found-page {
+      padding: calc(36px + var(--page-padding)) 0 var(--page-padding);
+    }
+  }
+</style>

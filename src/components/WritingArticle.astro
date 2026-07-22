@@ -8,9 +8,11 @@ interface Props {
   currentLanguage: "en" | "zh";
   englishHref: string;
   chineseHref: string;
-  image: string;
-  imageAlt: string;
-  imageCaption: string;
+  image?: string;
+  imageAlt?: string;
+  imageCaption?: string;
+  showLanguageSwitch?: boolean;
+  titleWeight?: 400 | 500;
 }
 
 const {
@@ -22,7 +24,11 @@ const {
   image,
   imageAlt,
   imageCaption,
+  showLanguageSwitch = true,
+  titleWeight,
 } = Astro.props;
+
+const hasCustomMedia = Astro.slots.has("media");
 ---
 
 <main
@@ -33,28 +39,43 @@ const {
     <div class="text-column writing-article">
       <div class="writing-article__meta-row">
         <time class="type-nav editorial-meta" datetime={date.replace(".", "-")}>{date}</time>
-        <LanguageSwitch
-          currentLanguage={currentLanguage}
-          englishHref={englishHref}
-          chineseHref={chineseHref}
-        />
+        {
+          showLanguageSwitch && (
+            <LanguageSwitch
+              currentLanguage={currentLanguage}
+              englishHref={englishHref}
+              chineseHref={chineseHref}
+            />
+          )
+        }
       </div>
 
-      <h1 class="writing-article__title">{title}</h1>
+      <h1
+        class="writing-article__title type-writing-title"
+        style={titleWeight ? `font-weight: ${titleWeight}` : undefined}
+      >
+        {title}
+      </h1>
 
       <hr />
 
       <slot name="editors-note" />
 
-      <figure>
-        <ArtworkImage
-          class="writing-article__image"
-          src={image}
-          alt={imageAlt}
-          loading="eager"
-        />
-        <figcaption class="type-colophon">{imageCaption}</figcaption>
-      </figure>
+      {
+        hasCustomMedia ? (
+          <slot name="media" />
+        ) : image && imageAlt && imageCaption ? (
+          <figure>
+            <ArtworkImage
+              class="writing-article__image"
+              src={image}
+              alt={imageAlt}
+              loading="eager"
+            />
+            <figcaption class="type-colophon">{imageCaption}</figcaption>
+          </figure>
+        ) : null
+      }
 
       <div class="writing-article__body type-body">
         <slot />
@@ -95,10 +116,6 @@ const {
 
   .writing-article__title {
     margin: 0;
-    font-family: "Source Serif 4", Georgia, serif;
-    font-size: var(--text-lg);
-    font-weight: 400;
-    line-height: var(--line-height-tight);
   }
 
   hr {

@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EditorsNote from "../../components/EditorsNote.astro";
+import WritingArticle from "../../components/WritingArticle.astro";
+import WritingImagePair from "../../components/WritingImagePair.astro";
+---
+
+<BaseLayout
+  title="Kasiboan | Yu-Shan Lin"
+  description="一篇關於台灣蘭嶼 Kasiboan 的文章。"
+  additionalFontStylesheet="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&display=swap"
+>
+  <WritingArticle
+    title="Kasiboan"
+    date="2024.07"
+    currentLanguage="zh"
+    titleWeight={400}
+    englishHref="/writing/on-kasiboan"
+    chineseHref="/writing/on-kasiboan-zh"
+  >
+    <EditorsNote slot="editors-note">本文寫於蘭嶼行後，記錄我對建築作為名詞與動詞，以及其作為環境與集體行動的思考。</EditorsNote>
+
+    <WritingImagePair
+      slot="media"
+      images={[
+        {
+          src: "/writing/on-kasiboan/lanyu-landscape.jpg",
+          alt: "台灣蘭嶼景觀",
+        },
+        {
+          src: "/writing/on-kasiboan/kasiboan-detail.jpg",
+          alt: "台灣蘭嶼 Kasiboan 細部",
+        },
+      ]}
+      caption="蘭嶼風景與 Kasiboan 細節。"
+    />
+
+    <p>蘭嶼是台灣東南方外海處的一座島嶼，長久以來是達悟族生活的島嶼，直到近20年來，越來越多人被它的自然景觀與文化吸引，觀光客不斷湧入，造成資源消耗與環境衝擊。而我也在去年夏天拜訪了它。</p>
+
+    <p>旅行總是給予我許多養分，除了見證自然，我也從身體經歷各個城鎮空間，感受建築的力量。我總習慣以空間設計或活動設計（結果）來傳達觀點或回應問題，而蘭嶼 Kasiboan 讓我意識到建築行為本身（過程）即是宣言。</p>
+
+    <p>Kasiboan 是一座由廢棄保特瓶構築而成的展亭，由志工與島民搜集的觀光垃圾集結而成。長久以來，因為小島沒有垃圾處理場能夠消化這些過大的垃圾負荷，於是垃圾開始堆積在田野和海岸間，Kasiboan 以回收物建築倡導減塑、提醒著所有旅客環境責任，並且利用垃圾的構築行動，使每個拜訪蘭嶼的人都間接成為這座建築的創作者，除了積極淨化環境也發出強烈的宣導，是令人心碎的景點。這讓我深深體驗到了建築行為的力量。</p>
+  </WritingArticle>
+</BaseLayout>

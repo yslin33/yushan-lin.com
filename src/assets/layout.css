@@ -73,6 +73,14 @@
   font-weight: 600;
 }
 
+.type-writing-title {
+  color: #2c2c2c;
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: var(--line-height-tight);
+}
+
 .type-section {
   font-size: var(--text-sm);
   line-height: var(--line-height-normal);
@@ -118,6 +126,27 @@
 .type-meta,
 .type-caption {
   color: var(--color-muted);
+}
+
+/* Shared arrow-link treatment used by editorial lists and return links. */
+.editorial-link {
+  display: inline-flex;
+  align-items: baseline;
+  transition:
+    color 150ms ease,
+    transform 150ms ease;
+}
+
+.editorial-link__arrow,
+.editorial-link::before {
+  flex: 0 0 auto;
+  margin-right: 9px;
+}
+
+.editorial-link:hover,
+.editorial-link:focus-visible {
+  color: #111111;
+  transform: translateX(2px);
 }
 
 /* Desktop split layout */

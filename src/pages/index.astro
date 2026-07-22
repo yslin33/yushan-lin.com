@@ -18,19 +18,19 @@ import CopyrightFooter from "../components/CopyrightFooter.astro";
 
             <ul class="project-list">
               <li>
-                <a href="/projects/soft-edges-hard-grids">
+                <a class="editorial-link" href="/projects/soft-edges-hard-grids">
                   Soft Edges, Hard Grids
                 </a>
               </li>
 
               <li>
-                <a href="/projects/porous-stratification">
+                <a class="editorial-link" href="/projects/porous-stratification">
                   Porous Stratification
                 </a>
               </li>
 
               <li>
-                <a href="/projects/visions-in-beitou">
+                <a class="editorial-link" href="/projects/visions-in-beitou">
                   Visions in Beitou / Beitou in Visions: 2024 Memorial
                 </a>
               </li>
@@ -117,24 +117,8 @@ import CopyrightFooter from "../components/CopyrightFooter.astro";
     margin-top: 10px;
   }
 
-  .project-list a {
-    display: inline-flex;
-    align-items: baseline;
-    transition:
-      color 150ms ease,
-      transform 150ms ease;
-  }
-
   .project-list a::before {
     content: "→";
-    flex: 0 0 auto;
-    margin-right: 9px;
-  }
-
-  .project-list a:hover,
-  .project-list a:focus-visible {
-    color: #111111;
-    transform: translateX(2px);
   }
 
   .site-footer {

@@ -1,0 +1,66 @@
+---
+import ArtworkImage from "./ArtworkImage.astro";
+
+interface ImageItem {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  images: [ImageItem, ImageItem];
+  caption: string;
+}
+
+const { images, caption } = Astro.props;
+---
+
+<figure class="writing-image-pair">
+  <div class="writing-image-pair__images">
+    {
+      images.map((image, index) => (
+        <div class="writing-image-pair__frame">
+          <ArtworkImage
+            class="writing-image-pair__image"
+            src={image.src}
+            alt={image.alt}
+            loading={index === 0 ? "eager" : "lazy"}
+          />
+        </div>
+      ))
+    }
+  </div>
+  <figcaption class="type-colophon">{caption}</figcaption>
+</figure>
+
+<style>
+  .writing-image-pair {
+    margin: 0;
+  }
+
+  .writing-image-pair__images {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    align-items: stretch;
+    gap: var(--space-xs);
+    aspect-ratio: 12 / 5;
+  }
+
+  .writing-image-pair__frame {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  :global(.writing-image-pair__image) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  figcaption {
+    margin-top: var(--space-xs);
+    text-align: right;
+  }
+
+</style>

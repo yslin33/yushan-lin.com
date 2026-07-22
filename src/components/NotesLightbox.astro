@@ -147,6 +147,8 @@ const lightboxData = JSON.stringify(galleries).replace(/</g, "\\u003c");
     document.querySelectorAll<HTMLElement>("[data-lightbox-folder][data-lightbox-index]").forEach(
       (trigger) => {
         trigger.addEventListener("click", () => {
+          if (window.matchMedia("(max-width: 767px)").matches) return;
+
           const folder = trigger.dataset.lightboxFolder || "";
           const index = Number(trigger.dataset.lightboxIndex || 0);
           openLightbox(folder, index, trigger);
