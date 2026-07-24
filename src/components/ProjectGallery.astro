@@ -5,14 +5,15 @@ import ThumbnailGallery, { type GalleryItem } from "./ThumbnailGallery.astro";
 interface Props {
   items: GalleryItem[];
   folder: string;
+  heading?: string;
 }
 
-const { items, folder } = Astro.props;
+const { items, folder, heading = "Gallery" } = Astro.props;
 ---
 
 <div class="project-gallery">
   <ThumbnailGallery
-    heading="Gallery"
+    heading={heading}
     folder={folder}
     items={items}
     itemLabel="project image"

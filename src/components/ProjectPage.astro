@@ -14,6 +14,7 @@ interface Props {
   chineseHref: string;
   galleryImages?: ProjectImage[];
   galleryFolder?: string;
+  galleryHeading?: string;
   placeholder?: boolean;
 }
 
@@ -26,11 +27,13 @@ const {
   chineseHref,
   galleryImages = [],
   galleryFolder = "project-gallery",
+  galleryHeading = "Gallery",
   placeholder = false,
 } = Astro.props;
 const galleryItems: GalleryItem[] = galleryImages.map((image) => ({
   image: getProjectImageSrc(image),
   title: image.title ?? image.caption ?? image.alt,
+  lightboxPresentation: image.lightboxPresentation,
 }));
 const hasHero = Astro.slots.has("hero");
 const hasMetadata = Astro.slots.has("metadata");
@@ -69,7 +72,15 @@ const hasCustomTitle = Astro.slots.has("title");
 
         <div class="project-article__body type-body">
           <slot />
-          {galleryItems.length > 0 && <ProjectGallery items={galleryItems} folder={galleryFolder} />}
+          {
+            galleryItems.length > 0 && (
+              <ProjectGallery
+                items={galleryItems}
+                folder={galleryFolder}
+                heading={galleryHeading}
+              />
+            )
+          }
         </div>
       </div>
     </article>
@@ -145,6 +156,29 @@ const hasCustomTitle = Astro.slots.has("title");
       "Noto Serif TC",
       Georgia,
       serif;
+  }
+
+  @media (min-width: 901px) {
+    .project-page--placeholder,
+    .project-page--placeholder > article,
+    .project-page--placeholder .project-article {
+      display: flex;
+    }
+
+    .project-page--placeholder .project-article {
+      flex: 1;
+      flex-direction: column;
+    }
+
+    .project-page--placeholder .project-article__body {
+      flex: 1;
+      margin-top: 0;
+    }
+
+    .project-page--placeholder .project-article__body > :global(.project-placeholder) {
+      flex: 1;
+      min-height: 0;
+    }
   }
 
   @media (max-width: 720px) {

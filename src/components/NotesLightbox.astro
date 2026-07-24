@@ -6,6 +6,7 @@ interface LightboxItem {
   title: string;
   location?: string;
   date?: string;
+  lightboxPresentation?: "standard" | "technical";
 }
 
 interface Props {
@@ -87,6 +88,7 @@ const lightboxData = JSON.stringify(galleries).replace(/</g, "\\u003c");
       title: string;
       location?: string;
       date?: string;
+      lightboxPresentation?: "standard" | "technical";
     };
 
     const galleries = dataElement
@@ -105,6 +107,7 @@ const lightboxData = JSON.stringify(galleries).replace(/</g, "\\u003c");
 
       image.src = item.image;
       image.alt = item.title;
+      lightbox.dataset.presentation = item.lightboxPresentation ?? "standard";
       if (title) title.textContent = item.title;
 
       const displayDate = item.date && /^\d{4}-\d{2}$/.test(item.date)
@@ -219,6 +222,12 @@ const lightboxData = JSON.stringify(galleries).replace(/</g, "\\u003c");
 
 <style>
   .notes-lightbox {
+    --lightbox-reference-size: min(
+      520px,
+      calc(100vw - 48px),
+      calc(100vh - 180px)
+    );
+
     position: fixed;
     inset: 0;
     z-index: 100;
@@ -255,6 +264,21 @@ const lightboxData = JSON.stringify(galleries).replace(/</g, "\\u003c");
     max-width: 100%;
     max-height: calc(100vh - 180px);
     object-fit: contain;
+  }
+
+  @media (min-width: 768px) {
+    .notes-lightbox[data-presentation="technical"] .notes-lightbox__figure {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .notes-lightbox[data-presentation="technical"] .notes-lightbox__image {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: var(--lightbox-reference-size);
+      object-fit: contain;
+    }
   }
 
   .notes-lightbox__caption {

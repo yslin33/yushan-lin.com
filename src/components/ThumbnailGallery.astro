@@ -6,6 +6,7 @@ export interface GalleryItem {
   title: string;
   location?: string;
   date?: string;
+  lightboxPresentation?: "standard" | "technical";
 }
 
 interface Props {
@@ -98,6 +99,7 @@ const initialItems = items.slice(0, Math.min(3, items.length));
       title: string;
       location?: string;
       date?: string;
+      lightboxPresentation?: "standard" | "technical";
     };
 
     const items = JSON.parse(gallery.dataset.galleryItems || "[]") as GalleryItem[];

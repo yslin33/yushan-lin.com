@@ -17,6 +17,7 @@ const {
   includeInGallery = true,
 } = Astro.props;
 const groupCaption = caption ?? (layout === "single" ? images[0]?.caption : undefined);
+const hasCustomCaption = Astro.slots.has("caption");
 const imageAspectRatios = images.map(({ src }) =>
   typeof src === "string" ? 1 : src.width / src.height
 );
@@ -49,7 +50,13 @@ const imageAspectRatios = images.map(({ src }) =>
         ))
       }
     </div>
-    {groupCaption && <figcaption class="type-colophon">{groupCaption}</figcaption>}
+    {
+      (hasCustomCaption || groupCaption) && (
+        <figcaption class="type-colophon">
+          {hasCustomCaption ? <slot name="caption" /> : groupCaption}
+        </figcaption>
+      )
+    }
   </div>
 </figure>
 

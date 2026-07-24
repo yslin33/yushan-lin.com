@@ -49,7 +49,7 @@ const metadata = [
   { label: "Instructor", value: "Daniel Garcia" },
   {
     label: "Collaboration",
-    value: "Site analysis and precedent study completed in collaboration with Kayoon Lee.\nDesign proposal developed independently.",
+    value: "Site analysis & precedent study: with Kayoon Lee\nDesign proposal: developed independently",
   },
   {
     label: "Location",
@@ -67,6 +67,7 @@ const projectImages = {
     src: overviewImage,
     alt: "Site analysis of the two urban grids along Baltimore Pike",
     caption: "Two urban grids along Baltimore Pike.",
+    lightboxPresentation: "technical",
   },
   site01: { src: siteImage01, alt: "Site analysis image 01" },
   site02: { src: siteImage02, alt: "Site analysis image 02" },
@@ -77,21 +78,35 @@ const projectImages = {
   collage01: { src: collageImage01, alt: "Collage study image 01" },
   collage02: { src: collageImage02, alt: "Collage study image 02" },
   collage03: { src: collageImage03, alt: "Collage study image 03" },
-  groundFloorPlan: { src: groundFloorPlanImage, alt: "Ground floor plan" },
-  axon: { src: axonImage, alt: "Axonometric view" },
+  groundFloorPlan: {
+    src: groundFloorPlanImage,
+    alt: "Ground floor plan",
+    lightboxPresentation: "technical",
+  },
+  axon: {
+    src: axonImage,
+    alt: "Axonometric view",
+    lightboxPresentation: "technical",
+  },
   courtyard: { src: courtyardImage, alt: "Courtyard view" },
   circulation01: { src: circulationImage01, alt: "Circulation study image 01" },
   circulation02: { src: circulationImage02, alt: "Circulation study image 02" },
-  section: { src: sectionImage, alt: "A-A section" },
+  section: {
+    src: sectionImage,
+    alt: "A-A section",
+    lightboxPresentation: "technical",
+  },
   elevation01: {
     src: elevationImage01,
     alt: "Elevation 01",
     caption: "Elevation 01.",
+    lightboxPresentation: "technical",
   },
   elevation02: {
     src: elevationImage02,
     alt: "Elevation 02",
     caption: "Elevation 02.",
+    lightboxPresentation: "technical",
   },
   chunkModel: {
     src: chunkModelImage,
@@ -158,7 +173,7 @@ const publicationFigures = {
   section: {
     layout: "single",
     images: [projectImages.section],
-    caption: "A-A section.",
+    caption: "A–A section.",
   },
   galleryElevations: {
     layout: "two",
@@ -236,7 +251,9 @@ const projectData = {
     </ProjectHero>
 
     <h2 class="type-nav">Overview</h2>
-    <ProjectFigureGroup {...publicationFigures.overview} />
+    <ProjectFigureGroup {...publicationFigures.overview}>
+      <Fragment slot="caption">Two urban grids along Baltimore Pike. (<em>In collaboration with Kayoon Lee.</em>)</Fragment>
+    </ProjectFigureGroup>
     <p>The project begins with the collision of two urban grids along Baltimore Pike, producing a wedge-shaped site. Through site analysis focused on nature, I came to understand this condition as a continuous tension between rigid urban order and softer environmental boundaries, where landscape is compressed and reappears as pockets.</p>
     <p>Rather than resolving this condition, the project proposes a library that mediates between the two urban systems through spatial organization.</p>
 
@@ -245,7 +262,9 @@ const projectData = {
     <p>The site is defined by two contrasting urban grids. The northern grid is more rigid, while the southern grid is more flexible, creating a gradual transition across the site. Instead of treating these conditions as opposing systems, the project responds to their relationship as a spatial gradient that informs the overall organization of the library.</p>
 
     <h2 class="type-nav">Precedent</h2>
-    <ProjectFigureGroup {...publicationFigures.precedent} />
+    <ProjectFigureGroup {...publicationFigures.precedent}>
+      <Fragment slot="caption">Olin Library proposal spatial logic. (<em>In collaboration with Kayoon Lee.</em>)</Fragment>
+    </ProjectFigureGroup>
     <p>For the precedent study, I looked at Louis Kahn’s Olin Library, focusing on how the grid operates as an ordering system and how moments that depart from it—such as landscape and double-height spaces—help construct spatial logic.</p>
     <ProjectFigureGroup {...publicationFigures.collage} />
     <p>These observations became the starting point for a series of collage studies exploring relationships between order, landscape, and movement.</p>

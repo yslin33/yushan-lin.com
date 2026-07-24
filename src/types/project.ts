@@ -6,6 +6,7 @@ export interface ProjectImage {
   // Editorial standard: use a short noun phrase that identifies the image, avoids body-text repetition, and ends with a period.
   caption?: string;
   title?: string;
+  lightboxPresentation?: "standard" | "technical";
 }
 
 export interface ProjectFigureGroupData {
