@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EditorsNote from "../../components/EditorsNote.astro";
+import WritingArticle from "../../components/WritingArticle.astro";
+---
+
+<BaseLayout
+  title="Memory and Memorial | Yu-Shan Lin"
+  description="An essay by Yu-Shan Lin."
+>
+  <WritingArticle
+    title="Memory and Memorial"
+    date="2024.11"
+    currentLanguage="en"
+    englishHref="/writing/memory-and-memorial"
+    chineseHref="/writing/memory-and-memorial-zh"
+    image="/writing/memory-and-memorial/collect-and-recall.jpg"
+    imageAlt="Collect and Recall"
+    imageCaption="Collect and Recall."
+  >
+    <EditorsNote slot="editors-note">This essay is adapted from my undergraduate thesis on memorial architecture and has been revised for publication on this website. It reflects my continuing exploration of the relationship between memory, cities, and architecture.</EditorsNote>
+
+    <p>As someone who is deeply drawn to emotion, I am fascinated by the ordinary moments that often go unnoticed. I believe these subtle traces of everyday life quietly support the way we live, while history, culture, memory, and emotion remain constantly in motion.</p>
+
+    <p><em>“The image of memory, once fixed in words, is erased.”</em> (Italo Calvino, 1972).</p>
+
+    <p>Architecture, as both a collective art and a social instrument, possesses the ability to bridge these discontinuities. Among its many forms, memorial architecture interests me the most because it most directly shapes people’s emotions, thoughts, and actions.</p>
+
+    <p>My undergraduate thesis began with my hometown, where I explored the expressions of a city. As contemporary life gradually dilutes the traces of history, I became interested in questions such as: How can we perceive the depth and layers of time? How might we read a city once again? These questions continue to fascinate me, and memorial architecture has profoundly shaped the way I think about them.</p>
+
+    <p>Through my research, I came to understand that cultural memory can generally be represented through five types of memorial architecture: spaces that present knowledge and information to the public, such as museums; places that preserve what written records and images cannot fully capture, such as historical ruins; cultural institutions that not only represent local identity but also support community interaction; memorials and commemorative spaces that emphasize the transmission of specific meanings or collective values; and finally, city museums that allow people to experience both the visible and invisible stories of a place through their own bodies.</p>
+
+    <p>Among these, the city museum fascinates me the most. It is both functional and mnemonic, both cultural and everyday. Beyond <em>collect</em>—the gathering and presentation of memory—it also has the capacity to <em>recall</em> emotions, experiences, and shared spirits.</p>
+
+    <p>I believe the value of architecture lies not only in shaping space, but also in shaping the ways people live and interact. As a spatial designer, I hope to continue exploring how architecture can support—and even inspire—people beyond time, scale, and use, from culture and collective memory to everyday life and individual experience.</p>
+
+    <hr class="references-divider" />
+
+    <h2 class="references-heading type-colophon">References</h2>
+
+    <ul class="references-list">
+      <li class="reference-entry type-colophon"><span>Italo Calvino (1972) Invisible Cities. Translated by WANG, ZHI-HONG. Le città invisibili. Published on 1993/11/15 by Times Publishing.</span></li>
+    </ul>
+  </WritingArticle>
+</BaseLayout>

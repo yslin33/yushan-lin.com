@@ -12,9 +12,12 @@
   --space-sm: 16px;
   --space-md: 24px;
   --space-entry: 16px;
+  --figure-caption-gap: var(--space-xs);
   --space-lg: 48px;
   --space-xl: 80px;
   --space-2xl: 120px;
+  --section-gap: 64px;
+  --project-section-gap: var(--space-md);
 
   /* Typography sizes */
   --text-xs: 12px;
@@ -31,6 +34,7 @@
   --color-text: #222;
   --color-muted: #666;
   --color-faint: #999;
+  --color-caption: #555;
 }
 
 /* Narrow page container:
@@ -123,6 +127,11 @@
   opacity: 0.4;
 }
 
+.editorial-caption {
+  color: var(--color-caption);
+  text-align: right;
+}
+
 .type-meta,
 .type-caption {
   color: var(--color-muted);
@@ -164,6 +173,7 @@
 
     --space-xl: 64px;
     --space-2xl: 88px;
+    --section-gap: 52px;
 
     --text-lg: 18px;
   }

@@ -1,0 +1,126 @@
+---
+import ProjectFigure from "./ProjectFigure.astro";
+import {
+  getProjectImageSrc,
+  type ProjectFigureGroupData,
+} from "../types/project";
+
+type Props = ProjectFigureGroupData;
+
+const {
+  layout = "single",
+  images,
+  caption,
+  equalHeight = false,
+  individualCaptions = false,
+  stackOnMobile = false,
+  includeInGallery = true,
+} = Astro.props;
+const groupCaption = caption ?? (layout === "single" ? images[0]?.caption : undefined);
+const imageAspectRatios = images.map(({ src }) =>
+  typeof src === "string" ? 1 : src.width / src.height
+);
+---
+
+<figure
+  class:list={[
+    "project-figure-group",
+    `project-figure-group--${layout}`,
+    { "project-figure-group--equal-height": equalHeight },
+    { "project-figure-group--stack-mobile": stackOnMobile },
+  ]}
+  data-include-in-gallery={includeInGallery}
+>
+  <div class="project-figure-group__content">
+    <div class="project-figure-group__images">
+      {
+        images.map((image, index) => (
+          <div
+            class="project-figure-group__item"
+            style={equalHeight ? `--image-aspect-ratio: ${imageAspectRatios[index]}` : undefined}
+          >
+            <ProjectFigure
+              src={getProjectImageSrc(image)}
+              alt={image.alt}
+              caption={individualCaptions ? image.caption : undefined}
+              variant="full"
+            />
+          </div>
+        ))
+      }
+    </div>
+    {groupCaption && <figcaption class="type-colophon">{groupCaption}</figcaption>}
+  </div>
+</figure>
+
+<style>
+  /* Publication rule: figure groups retain one horizontal composition at every viewport width. */
+  .project-figure-group {
+    width: 100%;
+    margin: 0;
+  }
+
+  .project-figure-group__content {
+    width: 100%;
+  }
+
+  .project-figure-group__images {
+    display: grid;
+    gap: var(--space-sm);
+    width: 100%;
+  }
+
+  .project-figure-group--single .project-figure-group__images {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .project-figure-group--two .project-figure-group__images {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .project-figure-group--three .project-figure-group__images {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .project-figure-group__images > :global(*) {
+    min-width: 0;
+  }
+
+  .project-figure-group--equal-height .project-figure-group__images {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .project-figure-group--equal-height .project-figure-group__content {
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .project-figure-group--equal-height .project-figure-group__item {
+    flex: var(--image-aspect-ratio) 1 0;
+    min-width: 0;
+  }
+
+  .project-figure-group--equal-height .project-figure-group__item > :global(*) {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  figcaption {
+    display: block;
+    width: 100%;
+    margin-top: var(--figure-caption-gap);
+    color: var(--color-caption);
+    text-align: right;
+  }
+
+  @media (max-width: 720px) {
+    .project-figure-group--stack-mobile .project-figure-group__images {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

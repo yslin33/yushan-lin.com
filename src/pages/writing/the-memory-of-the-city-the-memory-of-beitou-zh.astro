@@ -5,9 +5,10 @@ import WritingArticle from "../../components/WritingArticle.astro";
 ---
 
 <BaseLayout
-  title="The Memory of the City, the Memory of Beitou | Yu-Shan Lin"
+  title="城市的記憶，北投的記憶 | Yu-Shan Lin"
   description="An essay by Yu-Shan Lin."
   additionalFontStylesheet="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&display=swap"
+  language="zh-Hant"
 >
   <WritingArticle
     title="城市的記憶，北投的記憶"
@@ -17,8 +18,9 @@ import WritingArticle from "../../components/WritingArticle.astro";
     chineseHref="/writing/the-memory-of-the-city-the-memory-of-beitou-zh"
     image="/writing/the-memory-of-the-city-the-memory-of-beitou/beitou-jia-mountain-1921.jpg"
     imageAlt="1921年 北投佳山"
-    imageCaption="1921年 北投佳山"
   >
+    <span slot="image-caption">1921年，北投佳山。（<em>來源詳見參考文獻。</em>）</span>
+
     <EditorsNote slot="editors-note">本文初稿完成於 2023 年，作為大學畢業設計的概念論述。本站版本僅調整排版與段落，以符合網頁閱讀。</EditorsNote>
 
     <p>城市是否擁有表情？</p>
@@ -27,9 +29,9 @@ import WritingArticle from "../../components/WritingArticle.astro";
 
     <h2 class="type-nav">城市的形象：在謠言與真相之間</h2>
 
-    <p>伊塔羅·卡爾維諾在《看不見的城市》中描寫了五十五座城市，並在書末揭示它們其實都是威尼斯的形象，為我們展示了<strong>城市存在於多重論述與多重現實中。</strong>「<em>城市本身是有意義而可讀的正文，生活其中的人為正文寫作者，透過人的實踐（居住、漫步及其他種種活動），不斷書寫城市。</em>」（Italo Calvino，1972），人們不斷捏塑著城市、共同譜寫著城市的表情，又各自以不同方式閱讀著它們；於是城市的形象乍看是難以名狀、無法捉摸的。</p>
+    <p>伊塔羅·卡爾維諾在《看不見的城市》中描寫了五十五座城市，並在書末揭示它們其實都是威尼斯的形象，為我們展示了<strong>城市存在於多重論述與多重現實中。</strong>「<em>城市本身是有意義而可讀的正文，生活其中的人為正文寫作者，透過人的實踐（居住、漫步及其他種種活動），不斷書寫城市。</em>」（Italo Calvino，1972）。人們不斷捏塑著城市、共同譜寫著城市的表情，又各自以不同方式閱讀著它們；於是城市的形象乍看是難以名狀、無法捉摸的。</p>
 
-    <p>《看不見的城市》也談到「<em>記憶中的形象，一旦在字詞中固定下來，就被抹除了。</em>」（Italo Calvino，1972），亦即城市的形象是時刻流動的，城市似乎終是無法單純被文字或影像捕捉；這樣的疑惑也出現在阮義忠的《台北謠言》攝影集中，上世紀的台北景象已不復存在，曾經的台北便是謠言般的存在，而我們經歷的每個當下，是否也是「謠言」的堆疊？《台北謠言》的後記是這樣說的：「<em>我終於明白，美好年代永遠存在。在社會的每個角落都有動人的事蹟、善良的人，<strong>一切唯心造。</strong>對我而言，台北已不再是則謠言。</em>」（阮義忠，2012），那些發生在城市中的微小片段、城市的每個故事，便是城市的「真相」。<strong>將文化歷史、傳說信仰、偉大的景觀與無名的日常相揉合即是城市；城市存在於謠言與真相之間。</strong></p>
+    <p>《看不見的城市》也談到「<em>記憶中的形象，一旦在字詞中固定下來，就被抹除了。</em>」（Italo Calvino，1972）。亦即城市的形象是時刻流動的，城市似乎終是無法單純被文字或影像捕捉；這樣的疑惑也出現在阮義忠的《台北謠言》攝影集中，上世紀的台北景象已不復存在，曾經的台北便是謠言般的存在，而我們經歷的每個當下，是否也是「謠言」的堆疊？《台北謠言》的後記是這樣說的：「<em>我終於明白，美好年代永遠存在。在社會的每個角落都有動人的事蹟、善良的人，<strong>一切唯心造。</strong>對我而言，台北已不再是則謠言。</em>」（阮義忠，2012）。那些發生在城市中的微小片段、城市的每個故事，便是城市的「真相」。<strong>將文化歷史、傳說信仰、偉大的景觀與無名的日常相揉合即是城市；城市存在於謠言與真相之間。</strong></p>
 
     <h2 class="type-nav">斷裂的北投：烏賊城市</h2>
 
@@ -37,7 +39,7 @@ import WritingArticle from "../../components/WritingArticle.astro";
 
     <h2 class="type-nav">面對變形的日常…建構「當代城市紀念場」</h2>
 
-    <p>城市的記憶默默退至生活深處，人與土地的關係遭受挑戰，北投人的日常要如何留在北投？城市在消失與更新之間不斷變化，是否能夠<strong>以場所做為媒介，記憶我們的土地、我們的生活和我們的時代</strong>？「<em>建築『生活』在人們的生活裡，隨著人們生活的變化而變化，直到它轉為人們的『集體記憶』…城市的歷史從不只是城市裡的歷史建築，而是建築『生活』的歷史。</em>」（李立鈞、吳耀庭、謝杰廷，2019）；<strong>以「當代城市紀念場」編織時間與空間的線索，幫助北投日常錨定於這片土地，並且隨著時光洪流持續做為城市的見證</strong>。</p>
+    <p>城市的記憶默默退至生活深處，人與土地的關係遭受挑戰，北投人的日常要如何留在北投？城市在消失與更新之間不斷變化，是否能夠<strong>以場所做為媒介，記憶我們的土地、我們的生活和我們的時代</strong>？「<em>建築『生活』在人們的生活裡，隨著人們生活的變化而變化，直到它轉為人們的『集體記憶』…城市的歷史從不只是城市裡的歷史建築，而是建築『生活』的歷史。</em>」（李立鈞、吳耀庭、謝杰廷，2019）。<strong>以「當代城市紀念場」編織時間與空間的線索，幫助北投日常錨定於這片土地，並且隨著時光洪流持續做為城市的見證</strong>。</p>
 
     <h2 class="type-nav">城市記憶的閱讀器</h2>
 

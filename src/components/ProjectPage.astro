@@ -1,0 +1,173 @@
+---
+import LanguageSwitch from "./LanguageSwitch.astro";
+import ProjectGallery from "./ProjectGallery.astro";
+import PublicationPageShell from "./PublicationPageShell.astro";
+import type { GalleryItem } from "./ThumbnailGallery.astro";
+import { getProjectImageSrc, type ProjectImage } from "../types/project";
+
+interface Props {
+  title: string;
+  date: string;
+  dateTime?: string;
+  currentLanguage: "en" | "zh";
+  englishHref: string;
+  chineseHref: string;
+  galleryImages?: ProjectImage[];
+  galleryFolder?: string;
+  placeholder?: boolean;
+}
+
+const {
+  title,
+  date,
+  dateTime,
+  currentLanguage,
+  englishHref,
+  chineseHref,
+  galleryImages = [],
+  galleryFolder = "project-gallery",
+  placeholder = false,
+} = Astro.props;
+const galleryItems: GalleryItem[] = galleryImages.map((image) => ({
+  image: getProjectImageSrc(image),
+  title: image.title ?? image.caption ?? image.alt,
+}));
+const hasHero = Astro.slots.has("hero");
+const hasMetadata = Astro.slots.has("metadata");
+const hasCustomTitle = Astro.slots.has("title");
+---
+
+<PublicationPageShell backHref="/" backLabel="Projects">
+  <main
+    class:list={[
+      "project-page",
+      "mobile-content-start",
+      { "project-page--placeholder": placeholder },
+    ]}
+    lang={currentLanguage === "zh" ? "zh-Hant" : "en"}
+  >
+    <article class="content-column">
+      <div class="text-column project-article">
+      <div class="project-article__meta-row">
+        <time class="type-nav editorial-meta" datetime={dateTime ?? date.replace(".", "-")}>{date}</time>
+        <LanguageSwitch
+          currentLanguage={currentLanguage}
+          englishHref={englishHref}
+          chineseHref={chineseHref}
+        />
+      </div>
+
+      <h1 class="type-writing-title">
+        {hasCustomTitle ? <slot name="title" /> : title}
+      </h1>
+
+      <hr />
+
+      {hasHero && <div class="project-article__hero"><slot name="hero" /></div>}
+
+      {hasMetadata && <div class="project-article__metadata"><slot name="metadata" /></div>}
+
+        <div class="project-article__body type-body">
+          <slot />
+          {galleryItems.length > 0 && <ProjectGallery items={galleryItems} folder={galleryFolder} />}
+        </div>
+      </div>
+    </article>
+  </main>
+</PublicationPageShell>
+
+<style>
+  .project-page {
+    flex: 1 0 auto;
+    padding: 150px 0 0;
+  }
+
+  .project-article {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    color: #4f4f4f;
+  }
+
+  .project-article__meta-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-md);
+  }
+
+  h1,
+  p {
+    margin: 0;
+  }
+
+  hr {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid #e5e5e5;
+  }
+
+  .project-article__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    color: #3f3f3f;
+  }
+
+  .project-article__metadata {
+    margin-top: calc(var(--project-section-gap) - var(--space-sm));
+  }
+
+  .project-article__body {
+    margin-top: calc(var(--section-gap) - var(--space-sm));
+  }
+
+  .project-article__body > :global(h2),
+  .project-article__body > :global(p),
+  .project-article__body > :global(figure) {
+    margin: 0;
+  }
+
+  .project-article__body > :global(h2) {
+    color: #2c2c2c;
+  }
+
+  .project-article__body > :global(h2:not(:first-child)) {
+    margin-top: calc(var(--section-gap) - var(--space-sm));
+  }
+
+  .project-page[lang="zh-Hant"] .type-writing-title,
+  .project-page[lang="zh-Hant"] .project-article__body,
+  .project-page[lang="zh-Hant"] :global(.editors-note) {
+    font-family:
+      "Source Serif 4",
+      "Noto Serif TC",
+      Georgia,
+      serif;
+  }
+
+  @media (max-width: 720px) {
+    .project-page--placeholder,
+    .project-page--placeholder > article,
+    .project-page--placeholder .project-article {
+      display: flex;
+    }
+
+    .project-page--placeholder .project-article {
+      flex: 1;
+      flex-direction: column;
+    }
+
+    .project-page--placeholder .project-article__body {
+      flex: 1;
+      margin-top: 0;
+    }
+
+    .project-page--placeholder .project-article__body > :global(.project-placeholder) {
+      flex: 1;
+      min-height: 0;
+    }
+  }
+
+</style>

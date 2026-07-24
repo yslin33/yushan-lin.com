@@ -1,0 +1,77 @@
+---
+import BackLink from "./BackLink.astro";
+
+interface Props {
+  backHref: string;
+  backLabel: string;
+  centeredMain?: boolean;
+}
+
+const { backHref, backLabel, centeredMain = false } = Astro.props;
+---
+
+<div
+  class:list={[
+    "publication-page-shell",
+    { "publication-page-shell--centered-main": centeredMain },
+  ]}
+>
+  <div class="publication-page-shell__main">
+    <slot />
+  </div>
+
+  <div class="publication-page-shell__footer-area">
+    <BackLink href={backHref} label={backLabel} sectionSpacing />
+  </div>
+</div>
+
+<style>
+  .publication-page-shell {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .publication-page-shell__main {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .publication-page-shell__footer-area {
+    padding-bottom: var(--space-md);
+  }
+
+  .publication-page-shell--centered-main {
+    display: grid;
+    flex: 1 1 0;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    width: 100%;
+  }
+
+  .publication-page-shell--centered-main .publication-page-shell__main {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 0;
+    width: 100%;
+  }
+
+  .publication-page-shell--centered-main .publication-page-shell__footer-area {
+    z-index: 1;
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+  }
+
+  .publication-page-shell + :global(.copyright-footer) {
+    padding-top: 0;
+  }
+
+  :global(body:has(> .publication-page-shell--centered-main) > .ys-header) {
+    position: relative;
+    flex: 0 0 auto;
+  }
+</style>

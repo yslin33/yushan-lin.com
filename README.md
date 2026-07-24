@@ -1,46 +1,77 @@
-# Astro Starter Kit: Basics
+# Yu-Shan Lin
+
+Source repository for Yu-Shan Lin’s architectural publication website. The site brings together selected Projects, Writing, Photography, and Sketches within a shared bilingual publication system.
+
+## Technology
+
+- [Astro](https://astro.build/)
+- TypeScript
+- Component-scoped CSS and shared design tokens
+- Static output deployed through GitHub Pages
+
+## Development
+
+Install dependencies:
 
 ```sh
-npm create astro@latest -- --template basics
+npm install
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Start the Astro development server in background mode:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```sh
+astro dev --background
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Manage the background server:
 
-## 🧞 Commands
+```sh
+astro dev status
+astro dev logs
+astro dev stop
+```
 
-All commands are run from the root of the project, from a terminal:
+Create a production build:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+```sh
+npm run build
+```
 
-## 👀 Want to learn more?
+Preview the generated site locally:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```sh
+npm run preview
+```
+
+## Project Structure
+
+- `src/pages/` contains public routes.
+- `src/components/` contains shared publication components.
+- `src/layouts/` contains shared page layouts.
+- `src/assets/` contains source assets processed by Astro.
+- `public/` contains files copied directly into the public build.
+- `docs/` contains internal editorial documentation.
+- `dist/` is generated production output and is not version-controlled.
+
+Original artwork and archival master files must remain outside this website repository.
+
+## Editorial and Development Guidance
+
+Editorial decisions are governed by [EDITORIAL_GUIDE.md](EDITORIAL_GUIDE.md).
+
+Development and repository practices are governed by [PROJECT_RULES.md](PROJECT_RULES.md).
+
+These documents are internal project assets. They support work within the private repository and are not part of the public website.
+
+## Deployment
+
+Pushes to the `main` branch trigger the GitHub Pages workflow in `.github/workflows/deploy.yml`. The workflow installs dependencies, builds the Astro site, and deploys the generated Pages artifact.
+
+Before deployment:
+
+1. Run the production build.
+2. Verify intended routes and assets.
+3. Confirm internal documentation and archival files are absent from `dist/`.
+4. Confirm repository visibility and production-domain settings.
+
+Only generated publication files should be deployed.

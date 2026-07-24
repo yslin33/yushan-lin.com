@@ -1,5 +1,7 @@
 ---
 import LanguageSwitch from "./LanguageSwitch.astro";
+import Placeholder from "./Placeholder.astro";
+import PublicationPageShell from "./PublicationPageShell.astro";
 
 interface Props {
   title: string;
@@ -13,9 +15,10 @@ const englishHref = `/writing/${slug}`;
 const chineseHref = `/writing/${slug}-zh`;
 ---
 
-<main class="writing-page mobile-content-start" lang={language === "zh" ? "zh-Hant" : "en"}>
-  <article class="content-column">
-    <div class="text-column writing-page__content">
+<PublicationPageShell backHref="/notes" backLabel="Notes">
+  <main class="writing-page mobile-content-start" lang={language === "zh" ? "zh-Hant" : "en"}>
+    <article class="content-column">
+      <div class="text-column writing-page__content">
       <div class="writing-page__meta-row">
         <time class="type-nav editorial-meta" datetime={date.replace(".", "-")}>{date}</time>
 
@@ -26,23 +29,32 @@ const chineseHref = `/writing/${slug}-zh`;
         />
       </div>
 
-      <h1 class="type-body">{title}</h1>
+      <h1 class="type-writing-title">{title}</h1>
 
       <hr />
 
-      <p class="type-body">Coming soon.</p>
-    </div>
-  </article>
-</main>
+        <div class="writing-page__placeholder">
+          <Placeholder message="In progress." />
+        </div>
+      </div>
+    </article>
+  </main>
+</PublicationPageShell>
 
 <style>
   .writing-page {
-    min-height: 100vh;
-    padding: 150px 0 100px;
+    display: flex;
+    flex: 1 0 auto;
+    padding: 150px 0 0;
+  }
+
+  .writing-page > article {
+    display: flex;
   }
 
   .writing-page__content {
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: var(--space-sm);
     color: #4f4f4f;
@@ -72,9 +84,12 @@ const chineseHref = `/writing/${slug}-zh`;
     border-top: 1px solid #e5e5e5;
   }
 
-  @media (max-width: 720px) {
-    .writing-page {
-      padding-bottom: 80px;
-    }
+  .writing-page__placeholder {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
   }
+
 </style>

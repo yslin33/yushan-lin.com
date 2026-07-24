@@ -4,15 +4,16 @@ import ArtworkImage from "./ArtworkImage.astro";
 interface LightboxItem {
   image: string;
   title: string;
-  location: string;
-  date: string;
+  location?: string;
+  date?: string;
 }
 
 interface Props {
   galleries: Record<string, LightboxItem[]>;
+  showCaptions?: boolean;
 }
 
-const { galleries } = Astro.props;
+const { galleries, showCaptions = true } = Astro.props;
 const lightboxData = JSON.stringify(galleries).replace(/</g, "\\u003c");
 ---
 
@@ -36,10 +37,14 @@ const lightboxData = JSON.stringify(galleries).replace(/</g, "\\u003c");
       alt=""
     />
 
-    <figcaption class="notes-lightbox__caption type-nav">
-      <span class="notes-lightbox__title"></span>
-      <span class="notes-lightbox__meta"></span>
-    </figcaption>
+    {
+      showCaptions && (
+        <figcaption class="notes-lightbox__caption type-nav">
+          <span class="notes-lightbox__title"></span>
+          <span class="notes-lightbox__meta"></span>
+        </figcaption>
+      )
+    }
 
     <div class="notes-lightbox__navigation type-nav" aria-label="Image navigation">
       <button
@@ -80,8 +85,8 @@ const lightboxData = JSON.stringify(galleries).replace(/</g, "\\u003c");
     type LightboxItem = {
       image: string;
       title: string;
-      location: string;
-      date: string;
+      location?: string;
+      date?: string;
     };
 
     const galleries = dataElement
@@ -96,18 +101,20 @@ const lightboxData = JSON.stringify(galleries).replace(/</g, "\\u003c");
     const renderActiveItem = () => {
       const items = galleries[activeFolder] || [];
       const item = items[activeIndex];
-      if (!item || !image || !title || !meta) return;
+      if (!item || !image) return;
 
       image.src = item.image;
       image.alt = item.title;
-      title.textContent = item.title;
+      if (title) title.textContent = item.title;
 
-      const displayDate = /^\d{4}-\d{2}$/.test(item.date)
+      const displayDate = item.date && /^\d{4}-\d{2}$/.test(item.date)
         ? item.date.replace("-", ".")
-        : item.date;
+        : item.date || "";
       const metaText = [item.location, displayDate].filter(Boolean).join(" · ");
-      meta.textContent = metaText;
-      meta.hidden = metaText.length === 0;
+      if (meta) {
+        meta.textContent = metaText;
+        meta.hidden = metaText.length === 0;
+      }
     };
 
     const showRelativeItem = (offset: number) => {

@@ -7,6 +7,9 @@ dist/
 # dependencies
 node_modules/
 
+# original artwork must remain outside the website repository
+X-Original/
+
 # logs
 npm-debug.log*
 yarn-debug.log*

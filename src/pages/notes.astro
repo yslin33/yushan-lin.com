@@ -1,7 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ArtworkImage from "../components/ArtworkImage.astro";
 import NotesLightbox from "../components/NotesLightbox.astro";
+import ThumbnailGallery from "../components/ThumbnailGallery.astro";
+import { sortEntriesByDate } from "../utils/sortEntriesByDate";
 
 const photographySource = [
   {
@@ -105,23 +106,37 @@ const sortArchiveByDate = <T extends { date: string }>(items: T[]) =>
 const photographyNotes = sortArchiveByDate(photographySource);
 const sketchNotes = sortArchiveByDate(sketchSource);
 
-const writingNotes = [
+interface WritingNote {
+  title: string;
+  href: string;
+  date: string;
+}
+
+const writingSource: WritingNote[] = [
   {
     title: "Kasiboan",
-    href: "/writing/on-kasiboan",
+    href: "/writing/kasiboan",
     date: "2024-07",
   },
   {
-    title: "The Memory of the City, the Memory of Beitou",
+    title: "The Memory of the City, The Memory of Beitou",
     href: "/writing/the-memory-of-the-city-the-memory-of-beitou",
     date: "2023-12",
   },
   {
-    title: "Collect and Recall",
-    href: "/writing/collect-and-recall",
+    title: "Memory and Memorial",
+    href: "/writing/memory-and-memorial",
+    date: "2024-11",
+  },
+  {
+    title: "Fractured Cities",
+    href: "/writing/fractured-cities",
     date: "2024-12",
   },
-].sort((a, b) => a.date.localeCompare(b.date));
+];
+
+// Writing: oldest to newest; undated or in-progress entries appear last.
+const writingNotes = sortEntriesByDate(writingSource, "ascending");
 ---
 
 <BaseLayout
@@ -130,122 +145,24 @@ const writingNotes = [
 >
   <main class="notes-page mobile-content-start">
     <div class="content-column">
-      <div class="text-column">
-        <section
-          data-gallery-root
-          data-gallery-folder="photography"
-          data-gallery-items={JSON.stringify(photographyNotes)}
-        >
-          <h2 class="type-nav">Photography</h2>
+      <div class="text-column notes-sections">
+        <ThumbnailGallery
+          heading="Photography"
+          folder="photography"
+          items={photographyNotes}
+          itemLabel="photograph"
+          sectionClass="notes-section"
+        />
 
-          <div class="visual-note-row archive-image-row">
-            {
-              photographyNotes.slice(0, 3).map((note, index) => (
-                <button
-                  class="visual-note visual-note-trigger"
-                  type="button"
-                  aria-label={`View ${note.title}`}
-                  data-lightbox-folder="photography"
-                  data-lightbox-index={index}
-                  data-gallery-slot={index}
-                >
-                  <span class="visual-note-frame notes-image-wrapper">
-                    <ArtworkImage
-                      class="notes-image"
-                      src={note.image}
-                      alt={`${note.title} — ${note.location}`}
-                      loading="lazy"
-                    />
-                  </span>
-                  <span class="visual-note-mobile-caption type-nav">
-                    <span data-gallery-caption-title>{note.title}</span>
-                    <span data-gallery-caption-meta>
-                      {note.location} · {note.date.replace("-", ".")}
-                    </span>
-                  </span>
-                </button>
-              ))
-            }
-          </div>
+        <ThumbnailGallery
+          heading="Sketches"
+          folder="sketches"
+          items={sketchNotes}
+          itemLabel="sketch"
+          sectionClass="notes-section"
+        />
 
-          <div class="visual-note-nav type-nav" aria-label="Photography navigation">
-            <button
-              class="gallery-nav-control gallery-nav__control"
-              type="button"
-              aria-label="Previous photograph"
-              data-gallery-direction="-1"
-            >
-              <span aria-hidden="true">‹</span>
-            </button>
-            <button
-              class="gallery-nav-control gallery-nav__control"
-              type="button"
-              aria-label="Next photograph"
-              data-gallery-direction="1"
-            >
-              <span aria-hidden="true">›</span>
-            </button>
-          </div>
-        </section>
-
-        <section
-          data-gallery-root
-          data-gallery-folder="sketches"
-          data-gallery-items={JSON.stringify(sketchNotes)}
-        >
-          <h2 class="type-nav">Sketches</h2>
-
-          <div class="visual-note-row archive-image-row">
-            {
-              sketchNotes.slice(0, 3).map((note, index) => (
-                <button
-                  class="visual-note visual-note-trigger"
-                  type="button"
-                  aria-label={`View ${note.title}`}
-                  data-lightbox-folder="sketches"
-                  data-lightbox-index={index}
-                  data-gallery-slot={index}
-                >
-                  <span class="visual-note-frame notes-image-wrapper">
-                    <ArtworkImage
-                      class="notes-image"
-                      src={note.image}
-                      alt={`${note.title} — ${note.location}`}
-                      loading="lazy"
-                    />
-                  </span>
-                  <span class="visual-note-mobile-caption type-nav">
-                    <span data-gallery-caption-title>{note.title}</span>
-                    <span data-gallery-caption-meta>
-                      {note.location} · {note.date.replace("-", ".")}
-                    </span>
-                  </span>
-                </button>
-              ))
-            }
-          </div>
-
-          <div class="visual-note-nav type-nav" aria-label="Sketches navigation">
-            <button
-              class="gallery-nav-control gallery-nav__control"
-              type="button"
-              aria-label="Previous sketch"
-              data-gallery-direction="-1"
-            >
-              <span aria-hidden="true">‹</span>
-            </button>
-            <button
-              class="gallery-nav-control gallery-nav__control"
-              type="button"
-              aria-label="Next sketch"
-              data-gallery-direction="1"
-            >
-              <span aria-hidden="true">›</span>
-            </button>
-          </div>
-        </section>
-
-        <section>
+        <section class="notes-section">
           <h2 class="type-nav">Writing</h2>
 
           <ul class="writing-list type-body">
@@ -267,226 +184,21 @@ const writingNotes = [
   />
 </BaseLayout>
 
-<script>
-  document.querySelectorAll<HTMLElement>("[data-gallery-root]").forEach((gallery) => {
-    type GalleryItem = {
-      image: string;
-      title: string;
-      location: string;
-      date: string;
-    };
-
-    const items = JSON.parse(gallery.dataset.galleryItems || "[]") as GalleryItem[];
-    const slots = Array.from(gallery.querySelectorAll<HTMLButtonElement>("[data-gallery-slot]"));
-    const controls = gallery.querySelectorAll<HTMLButtonElement>(".gallery-nav__control");
-    const mobileGalleryMedia = window.matchMedia("(max-width: 767px)");
-    const visibleCount = 3;
-    let currentStartIndex = 0;
-
-    const updateImageOrientation = (image: HTMLImageElement) => {
-      const frame = image.closest<HTMLElement>(".notes-image-wrapper");
-      if (!frame || image.naturalWidth === 0 || image.naturalHeight === 0) return;
-
-      frame.classList.remove("is-portrait", "is-landscape");
-      frame.classList.add(
-        image.naturalHeight > image.naturalWidth ? "is-portrait" : "is-landscape",
-      );
-    };
-
-    slots.forEach((slot) => {
-      const image = slot.querySelector<HTMLImageElement>("img");
-      if (!image) return;
-
-      image.addEventListener("load", () => updateImageOrientation(image));
-      if (image.complete) updateImageOrientation(image);
-    });
-
-    const updateVisibleItems = () => {
-      if (items.length === 0) return;
-
-      const visibleItems = Array.from(
-        { length: visibleCount },
-        (_, offset) => items[(currentStartIndex + offset) % items.length],
-      );
-      gallery.dataset.galleryStartIndex = String(currentStartIndex);
-
-      slots.forEach((slot, slotIndex) => {
-        const item = visibleItems[slotIndex];
-        if (!item) return;
-
-        const itemIndex = (currentStartIndex + slotIndex) % items.length;
-        slot.dataset.lightboxIndex = String(itemIndex);
-        slot.setAttribute("aria-label", `View ${item.title}`);
-
-        const image = slot.querySelector<HTMLImageElement>("img");
-        if (image) {
-          image.closest(".notes-image-wrapper")?.classList.remove("is-portrait", "is-landscape");
-          image.src = item.image;
-          image.alt = [item.title, item.location]
-            .filter(Boolean)
-            .join(" — ");
-          if (image.complete) updateImageOrientation(image);
-        }
-
-        const captionTitle = slot.querySelector<HTMLElement>("[data-gallery-caption-title]");
-        const captionMeta = slot.querySelector<HTMLElement>("[data-gallery-caption-meta]");
-        if (captionTitle) captionTitle.textContent = item.title;
-        if (captionMeta) {
-          const displayDate = /^\d{4}-\d{2}$/.test(item.date)
-            ? item.date.replace("-", ".")
-            : item.date;
-          captionMeta.textContent = [item.location, displayDate].filter(Boolean).join(" · ");
-        }
-      });
-    };
-
-    const updateThumbnailInteraction = () => {
-      slots.forEach((slot) => {
-        slot.disabled = mobileGalleryMedia.matches;
-      });
-    };
-
-    controls.forEach((control) => {
-      control.addEventListener("click", (event) => {
-        event.stopPropagation();
-        const direction = Number(control.dataset.galleryDirection || 0);
-        currentStartIndex = (currentStartIndex + direction + items.length) % items.length;
-        updateVisibleItems();
-      });
-    });
-
-    updateVisibleItems();
-    updateThumbnailInteraction();
-    mobileGalleryMedia.addEventListener("change", updateThumbnailInteraction);
-  });
-</script>
-
 <style>
   .notes-page {
     min-height: 100vh;
     padding: 150px 0 100px;
   }
 
-  section + section {
-    margin-top: 64px;
+  .notes-sections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--section-gap);
   }
 
-  h2 {
+  section > h2 {
     margin: 0 0 16px;
     color: #2c2c2c;
-  }
-
-  .visual-note-row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  .visual-note {
-    display: block;
-  }
-
-  .visual-note-trigger {
-    width: 100%;
-    min-width: 0;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    appearance: none;
-    background: none;
-    box-shadow: none;
-    color: inherit;
-    font: inherit;
-    outline: none;
-    cursor: pointer;
-  }
-
-  .visual-note-trigger:focus-visible {
-    opacity: 0.72;
-  }
-
-  .visual-note-nav {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    gap: 28px;
-    margin-top: 12px;
-    color: var(--color-faint);
-  }
-
-  .visual-note-nav .gallery-nav-control {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    appearance: none;
-    -webkit-appearance: none;
-    min-width: 0;
-    min-height: 0;
-    background: transparent;
-    box-shadow: none;
-    color: inherit;
-    font: inherit;
-    font-size: 13px;
-    line-height: 1;
-    outline: none;
-    opacity: 0.65;
-    cursor: pointer;
-  }
-
-  .visual-note-nav .gallery-nav-control:hover,
-  .visual-note-nav .gallery-nav-control:active {
-    border: 0;
-    background: transparent;
-    box-shadow: none;
-    outline: none;
-    opacity: 0.85;
-  }
-
-  .visual-note-nav .gallery-nav-control:focus-visible {
-    border: 0;
-    background: transparent;
-    box-shadow: none;
-    outline: none;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    opacity: 0.85;
-  }
-
-  .visual-note-frame {
-    display: block;
-    aspect-ratio: 4 / 3;
-    background: #eeeeec;
-  }
-
-  .archive-image-row {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .archive-image-row .visual-note {
-    min-width: 0;
-  }
-
-  .archive-image-row .visual-note-frame {
-    width: 100%;
-    overflow: hidden;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
-  }
-
-  .archive-image-row img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    object-fit: contain;
-  }
-
-  .visual-note-mobile-caption {
-    display: none;
   }
 
   .writing-list {
@@ -520,89 +232,9 @@ const writingNotes = [
       padding-bottom: 80px;
     }
 
-    section[data-gallery-root] h2 {
-      margin-bottom: var(--space-xs);
-    }
-
-    section[data-gallery-root] .visual-note-nav {
-      margin-top: var(--space-xs);
-    }
-
-    section + section {
-      margin-top: 52px;
-    }
-
     .writing-list {
       white-space: normal;
     }
   }
 
-  @media (max-width: 767px) {
-    section[data-gallery-root] + section {
-      margin-top: var(--space-md);
-    }
-
-    section[data-gallery-root] h2 {
-      margin-bottom: var(--space-sm);
-    }
-
-    .visual-note-trigger:disabled {
-      cursor: default;
-    }
-
-    .visual-note-frame {
-      display: block;
-      width: 100%;
-      max-width: 100%;
-      margin-inline: auto;
-      aspect-ratio: auto;
-      overflow: visible;
-    }
-
-    .notes-image {
-      display: block;
-      height: auto;
-    }
-
-    .notes-image-wrapper.is-landscape .notes-image {
-      width: 100%;
-      max-width: 100%;
-    }
-
-    .notes-image-wrapper.is-portrait {
-      display: flex;
-      justify-content: center;
-    }
-
-    .notes-image-wrapper.is-portrait .notes-image {
-      width: auto;
-      max-width: 60%;
-      height: auto;
-    }
-
-    section[data-gallery-root] .visual-note-nav {
-      margin-top: var(--space-sm);
-    }
-
-    .visual-note-mobile-caption {
-      display: block;
-      margin-top: var(--space-xs);
-      color: var(--color-muted);
-      text-align: left;
-    }
-
-    .visual-note-mobile-caption span {
-      display: block;
-    }
-  }
-
-  @media (max-width: 639px) {
-    .visual-note-row {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .visual-note-row .visual-note:nth-child(n + 2) {
-      display: none;
-    }
-  }
 </style>

@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EditorsNote from "../../components/EditorsNote.astro";
+import WritingArticle from "../../components/WritingArticle.astro";
+---
+
+<BaseLayout
+  title="記憶與紀念 | Yu-Shan Lin"
+  description="Yu-Shan Lin 的文章〈記憶與紀念〉。"
+  additionalFontStylesheet="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&display=swap"
+  language="zh-Hant"
+>
+  <WritingArticle
+    title="記憶與紀念"
+    date="2024.11"
+    currentLanguage="zh"
+    englishHref="/writing/memory-and-memorial"
+    chineseHref="/writing/memory-and-memorial-zh"
+    image="/writing/memory-and-memorial/collect-and-recall.jpg"
+    imageAlt="收藏與喚醒"
+    imageCaption="收藏與喚醒。"
+  >
+    <EditorsNote slot="editors-note">本文整理自我大學畢業設計中關於紀念性建築的研究與思考，並重新編輯為網站文章。它記錄了我對記憶、城市與建築關係的持續探索。</EditorsNote>
+
+    <p>作為十分感性的人，我喜歡平凡的、被忽略的生活面貌。我認為這些日常的暗示，支持著我們的生活，而歷史、文化、記憶、情感卻是動態的。</p>
+
+    <p><em>「記憶中的形象，一旦在字詞中固定下來，就被抹除了。」</em>（Italo Calvino，1972）。</p>
+
+    <p>建築作為集體藝術和社會工具，卻具有彌補這些斷裂的力量。其中我特別喜歡紀念性建築，因為它們最能直接影響人們的情感、思想與行動。</p>
+
+    <p>我在大學畢業專題研究自己的家鄉、尋找城市的表情，思考當城市被當代生活稀釋時，我們如何望穿時間的深度和厚度？如何重新閱讀城市？我對這類議題十分著迷，而我受紀念性建築啟發許多。</p>
+
+    <p>經過研究分析，我認為文化記憶載體通常可歸為以下五類：向公眾展示訊息和知識的容器，例如常見的博物館；可以彌補文字影像紀錄之不足的遺留空間，例如古蹟遺址；展示地方文化外，也支持社區互動的場域，例如文化館；除了一般展示外，更注重傳遞特定意義或精神的紀念物和紀念空間，例如紀念館；最後是可以用身體經歷城市有形和無形故事的城市博物館，這也是我最著迷的記憶類型，它有功能也有記憶，是文化也是生活，在 <em>collect</em> 收集展示之外，也能夠 <em>recall</em> 喚醒人們的情感或是精神。</p>
+
+    <p>我相信的建築價值，不僅僅在於形塑空間，它更是塑造人們生活方式、社交互動的重要力量。我希望作為空間專業者，在時間、尺度及使用之外，能夠更深入探究：建築何以支持甚至啟發人們？大至文化與記憶、小至心靈與日常。 </p>
+
+    <hr class="references-divider" />
+
+    <h2 class="references-heading type-colophon">參考文獻</h2>
+
+    <ul class="references-list">
+      <li class="reference-entry type-colophon"><span>Italo Calvino（1972）《看不見的城市》。王志弘譯。Le città invisibili。1993/11/15時報出版。</span></li>
+    </ul>
+  </WritingArticle>
+</BaseLayout>

@@ -1,6 +1,28 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CopyrightFooter from "../components/CopyrightFooter.astro";
+import { sortEntriesByDate } from "../utils/sortEntriesByDate";
+
+const projectEntries = [
+  {
+    title: "Soft Edges, Hard Grids",
+    href: "/projects/soft-edges-hard-grids",
+    date: "Spring 2026",
+  },
+  {
+    title: "Porous Stratification",
+    href: "/projects/porous-stratification",
+    date: "Fall 2025",
+  },
+  {
+    title: "Visions in Beitou / Beitou in Visions: 2024 Memorial",
+    href: "/projects/visions-in-beitou",
+    date: "Fall 2023 – Spring 2024",
+  },
+];
+
+// Projects: newest to oldest; undated or in-progress entries appear last.
+const sortedProjectEntries = sortEntriesByDate(projectEntries, "descending");
 ---
 
 <BaseLayout
@@ -17,23 +39,15 @@ import CopyrightFooter from "../components/CopyrightFooter.astro";
             </p>
 
             <ul class="project-list">
-              <li>
-                <a class="editorial-link" href="/projects/soft-edges-hard-grids">
-                  Soft Edges, Hard Grids
-                </a>
-              </li>
-
-              <li>
-                <a class="editorial-link" href="/projects/porous-stratification">
-                  Porous Stratification
-                </a>
-              </li>
-
-              <li>
-                <a class="editorial-link" href="/projects/visions-in-beitou">
-                  Visions in Beitou / Beitou in Visions: 2024 Memorial
-                </a>
-              </li>
+              {
+                sortedProjectEntries.map((project) => (
+                  <li>
+                    <a class="editorial-link" href={project.href}>
+                      {project.title}
+                    </a>
+                  </li>
+                ))
+              }
             </ul>
           </div>
         </div>

@@ -1,40 +1,39 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PublicationPageShell from "../components/PublicationPageShell.astro";
 ---
 
 <BaseLayout
   title="Page Not Found | Yu-Shan Lin"
   description="This page cannot be found."
 >
-  <main class="not-found-page">
-    <div class="content-column">
-      <div class="text-column not-found-content">
-        <h1 class="type-writing-title">404</h1>
+  <PublicationPageShell backHref="/" backLabel="Home" centeredMain>
+    <main class="not-found-page">
+      <div class="content-column">
+        <div class="text-column not-found-content">
+          <h1 class="type-writing-title">404</h1>
 
-        <div class="not-found-message type-body">
-          <p>This page cannot be found.</p>
-          <p>
-            It may have been moved, removed,<br />
-            or perhaps it has not been published yet.
-          </p>
+          <div class="not-found-message type-body">
+            <p>This page cannot be found.</p>
+            <p>
+              It may have been moved, removed,<br />
+              or perhaps it has not been published yet.
+            </p>
+          </div>
         </div>
-
-        <a class="home-link editorial-link type-body" href="/">
-          <span class="editorial-link__arrow" aria-hidden="true">←</span>
-          Home
-        </a>
       </div>
-    </div>
-  </main>
+    </main>
+  </PublicationPageShell>
 </BaseLayout>
 
 <style>
   .not-found-page {
-    display: grid;
+    display: flex;
     flex: 1;
-    place-items: center;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    padding: calc(60px + var(--page-padding)) 0 var(--page-padding);
+    padding: var(--page-padding);
   }
 
   .text-column.not-found-content {
@@ -45,8 +44,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   .not-found-content h1,
-  .not-found-content p,
-  .not-found-content .home-link {
+  .not-found-content p {
     text-align: center;
   }
 
@@ -67,18 +65,4 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     color: var(--color-text);
   }
 
-  .home-link {
-    margin-top: 32px;
-  }
-
-  .home-link:focus-visible {
-    outline: 1px solid currentColor;
-    outline-offset: 5px;
-  }
-
-  @media (max-width: 720px) {
-    .not-found-page {
-      padding: calc(36px + var(--page-padding)) 0 var(--page-padding);
-    }
-  }
 </style>

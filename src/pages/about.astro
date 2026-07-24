@@ -25,12 +25,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <h2 class="type-nav">Education</h2>
 
           <div class="entry">
-            <p>Master of Architecture '28</p>
+            <p>Master of Architecture ’28</p>
             <p>University of Pennsylvania</p>
           </div>
 
           <div class="entry">
-            <p>B.S. in Architecture '24</p>
+            <p>B.S. in Architecture ’24</p>
             <p>National Taipei University of Technology</p>
           </div>
         </section>
@@ -100,7 +100,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   section + section {
-    margin-top: 64px;
+    margin-top: var(--section-gap);
   }
 
   h2 {
@@ -158,7 +158,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     }
 
     section + section {
-      margin-top: 52px;
+      margin-top: var(--section-gap);
     }
 
   }

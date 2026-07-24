@@ -1,0 +1,45 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  sectionSpacing?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  label,
+  sectionSpacing = false,
+  class: className,
+} = Astro.props;
+---
+
+<nav
+  class:list={[
+    "back-navigation",
+    { "back-navigation--section": sectionSpacing },
+    className,
+  ]}
+  aria-label={`Back to ${label}`}
+>
+  <a class="editorial-link type-body" href={href}>
+    <span class="editorial-link__arrow" aria-hidden="true">←</span>
+    {label}
+  </a>
+</nav>
+
+<style>
+  .back-navigation {
+    width: 100%;
+    text-align: center;
+  }
+
+  .back-navigation--section {
+    margin-top: var(--section-gap);
+  }
+
+  a:focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 5px;
+  }
+</style>

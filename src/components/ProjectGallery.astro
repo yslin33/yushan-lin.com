@@ -1,0 +1,29 @@
+---
+import NotesLightbox from "./NotesLightbox.astro";
+import ThumbnailGallery, { type GalleryItem } from "./ThumbnailGallery.astro";
+
+interface Props {
+  items: GalleryItem[];
+  folder: string;
+}
+
+const { items, folder } = Astro.props;
+---
+
+<div class="project-gallery">
+  <ThumbnailGallery
+    heading="Gallery"
+    folder={folder}
+    items={items}
+    itemLabel="project image"
+    showMobileCaptions={false}
+  />
+
+  <NotesLightbox galleries={{ [folder]: items }} showCaptions={false} />
+</div>
+
+<style>
+  .project-gallery {
+    margin-top: calc(var(--section-gap) - var(--space-sm));
+  }
+</style>

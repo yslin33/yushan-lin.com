@@ -1,0 +1,88 @@
+---
+import ArtworkImage from "./ArtworkImage.astro";
+
+interface Props {
+  src?: string;
+  alt: string;
+  caption?: string;
+  loading?: "eager" | "lazy";
+  variant?: "full" | "portrait" | "cover";
+}
+
+const {
+  src,
+  alt,
+  caption,
+  loading = "lazy",
+  variant = "full",
+} = Astro.props;
+---
+
+<figure
+  class:list={[
+    "project-figure",
+    `project-figure--${variant}`,
+  ]}
+>
+  {
+    src ? (
+      <ArtworkImage
+        class="project-figure__image"
+        src={src}
+        alt={alt}
+        loading={loading}
+      />
+    ) : (
+      <div class="project-figure__placeholder" role="img" aria-label={alt} />
+    )
+  }
+  {caption && <figcaption class="type-colophon">{caption}</figcaption>}
+</figure>
+
+<style>
+  .project-figure {
+    margin: 0;
+  }
+
+  :global(.project-figure__image),
+  .project-figure__placeholder {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .project-figure__placeholder {
+    aspect-ratio: 4 / 3;
+    background: #f3f3f1;
+  }
+
+  figcaption {
+    margin-top: var(--figure-caption-gap);
+    color: var(--color-caption);
+    text-align: right;
+  }
+
+  .project-figure--portrait {
+    width: 58%;
+    margin-inline: auto;
+  }
+
+  .project-figure--cover {
+    height: 100%;
+  }
+
+  .project-figure--cover :global(.project-figure__image) {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: 100%;
+    margin-inline: auto;
+    object-fit: contain;
+  }
+
+  @media (max-width: 720px) {
+    .project-figure--portrait {
+      width: 72%;
+    }
+  }
+</style>

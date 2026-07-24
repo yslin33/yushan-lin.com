@@ -7,19 +7,21 @@ interface Props {
   title?: string;
   description?: string;
   additionalFontStylesheet?: string;
+  language?: "en" | "zh-Hant";
 }
 
 const {
   title = "Yu-Shan Lin",
   description = "Architectural design, observation, and writing.",
   additionalFontStylesheet,
+  language = "en",
 } = Astro.props;
 
 const isHome = Astro.url.pathname === "/";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={language}>
   <head>
     <meta charset="UTF-8" />
 

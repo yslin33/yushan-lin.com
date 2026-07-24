@@ -1,6 +1,7 @@
 ---
 import ArtworkImage from "./ArtworkImage.astro";
 import LanguageSwitch from "./LanguageSwitch.astro";
+import PublicationPageShell from "./PublicationPageShell.astro";
 
 interface Props {
   title: string;
@@ -29,14 +30,16 @@ const {
 } = Astro.props;
 
 const hasCustomMedia = Astro.slots.has("media");
+const hasCustomImageCaption = Astro.slots.has("image-caption");
 ---
 
-<main
-  class="writing-page mobile-content-start"
-  lang={currentLanguage === "zh" ? "zh-Hant" : "en"}
->
-  <article class="content-column">
-    <div class="text-column writing-article">
+<PublicationPageShell backHref="/notes" backLabel="Notes">
+  <main
+    class="writing-page mobile-content-start"
+    lang={currentLanguage === "zh" ? "zh-Hant" : "en"}
+  >
+    <article class="content-column">
+      <div class="text-column writing-article">
       <div class="writing-article__meta-row">
         <time class="type-nav editorial-meta" datetime={date.replace(".", "-")}>{date}</time>
         {
@@ -64,7 +67,7 @@ const hasCustomMedia = Astro.slots.has("media");
       {
         hasCustomMedia ? (
           <slot name="media" />
-        ) : image && imageAlt && imageCaption ? (
+        ) : image && imageAlt && (imageCaption || hasCustomImageCaption) ? (
           <figure>
             <ArtworkImage
               class="writing-article__image"
@@ -72,22 +75,25 @@ const hasCustomMedia = Astro.slots.has("media");
               alt={imageAlt}
               loading="eager"
             />
-            <figcaption class="type-colophon">{imageCaption}</figcaption>
+            <figcaption class="type-colophon editorial-caption">
+              {hasCustomImageCaption ? <slot name="image-caption" /> : imageCaption}
+            </figcaption>
           </figure>
         ) : null
       }
 
-      <div class="writing-article__body type-body">
-        <slot />
+        <div class="writing-article__body type-body">
+          <slot />
+        </div>
       </div>
-    </div>
-  </article>
-</main>
+    </article>
+  </main>
+</PublicationPageShell>
 
 <style>
   .writing-page {
-    min-height: 100vh;
-    padding: 150px 0 100px;
+    flex: 1 0 auto;
+    padding: 150px 0 0;
   }
 
   .writing-article {
@@ -133,7 +139,6 @@ const hasCustomMedia = Astro.slots.has("media");
 
   figcaption {
     margin-top: var(--space-xs);
-    text-align: right;
   }
 
   .writing-article__body {
@@ -237,9 +242,4 @@ const hasCustomMedia = Astro.slots.has("media");
       sans-serif;
   }
 
-  @media (max-width: 720px) {
-    .writing-page {
-      padding-bottom: 80px;
-    }
-  }
 </style>

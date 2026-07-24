@@ -1,30 +1,267 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Placeholder from "../../components/Placeholder.astro";
+import EditorsNote from "../../components/EditorsNote.astro";
+import ProjectHero from "../../components/ProjectHero.astro";
+import ProjectMetadata from "../../components/ProjectMetadata.astro";
+import ProjectPage from "../../components/ProjectPage.astro";
+import ProjectFigureGroup from "../../components/ProjectFigureGroup.astro";
+import {
+  collectProjectGalleryImages,
+  type ProjectFigureGroupData,
+  type ProjectImage,
+} from "../../types/project";
+import heroImage from "../../assets/projects/soft-edges-hard-grids/hero.jpg";
+import overviewImage from "../../assets/projects/soft-edges-hard-grids/overview.jpg";
+import siteImage01 from "../../assets/projects/soft-edges-hard-grids/site-01.jpg";
+import siteImage02 from "../../assets/projects/soft-edges-hard-grids/site-02.jpg";
+import siteImage03 from "../../assets/projects/soft-edges-hard-grids/site-03.jpg";
+import precedentImage01 from "../../assets/projects/soft-edges-hard-grids/precedent-01.jpg";
+import precedentImage02 from "../../assets/projects/soft-edges-hard-grids/precedent-02.jpg";
+import precedentImage03 from "../../assets/projects/soft-edges-hard-grids/precedent-03.jpg";
+import collageImage01 from "../../assets/projects/soft-edges-hard-grids/collage-01.jpg";
+import collageImage02 from "../../assets/projects/soft-edges-hard-grids/collage-02.jpg";
+import collageImage03 from "../../assets/projects/soft-edges-hard-grids/collage-03.jpg";
+import groundFloorPlanImage from "../../assets/projects/soft-edges-hard-grids/1f-plan.jpg";
+import axonImage from "../../assets/projects/soft-edges-hard-grids/axon.jpg";
+import courtyardImage from "../../assets/projects/soft-edges-hard-grids/courtyard.jpg";
+import circulationImage01 from "../../assets/projects/soft-edges-hard-grids/circulation-01.jpg";
+import circulationImage02 from "../../assets/projects/soft-edges-hard-grids/circulation-02.jpg";
+import sectionImage from "../../assets/projects/soft-edges-hard-grids/section.jpg";
+import elevationImage01 from "../../assets/projects/soft-edges-hard-grids/elevation-01.jpg";
+import elevationImage02 from "../../assets/projects/soft-edges-hard-grids/elevation-02.jpg";
+import chunkModelImage from "../../assets/projects/soft-edges-hard-grids/chunk-model.jpg";
+import northernBarImage from "../../assets/projects/soft-edges-hard-grids/northern-bar.jpg";
+import southernBarImage from "../../assets/projects/soft-edges-hard-grids/southern-bar.jpg";
+import pluginModelImage01 from "../../assets/projects/soft-edges-hard-grids/plugin-model-01.jpg";
+import pluginModelImage02 from "../../assets/projects/soft-edges-hard-grids/plugin-model-02.jpg";
+import pluginModelImage03 from "../../assets/projects/soft-edges-hard-grids/plugin-model-03.jpg";
+import pluginModelImage04 from "../../assets/projects/soft-edges-hard-grids/plugin-model-04.jpg";
+
+const metadata = [
+  {
+    label: "Institution",
+    value: "University of Pennsylvania\nStuart Weitzman School of Design",
+  },
+  {
+    label: "Studio",
+    value: "M.Arch 502 Design Studio\nStudio Garcia",
+  },
+  { label: "Instructor", value: "Daniel Garcia" },
+  {
+    label: "Collaboration",
+    value: "Site analysis and precedent study completed in collaboration with Kayoon Lee.\nDesign proposal developed independently.",
+  },
+  {
+    label: "Location",
+    value: "Blanche A. Nixon Branch Library\nPhiladelphia, PA, United States",
+  },
+];
+
+const projectImages = {
+  hero: {
+    src: heroImage,
+    alt: "Soft Edges, Hard Grids project hero image",
+    caption: "Reading rooms within the northern bar.",
+  },
+  overview: {
+    src: overviewImage,
+    alt: "Site analysis of the two urban grids along Baltimore Pike",
+    caption: "Two urban grids along Baltimore Pike.",
+  },
+  site01: { src: siteImage01, alt: "Site analysis image 01" },
+  site02: { src: siteImage02, alt: "Site analysis image 02" },
+  site03: { src: siteImage03, alt: "Site analysis image 03" },
+  precedent01: { src: precedentImage01, alt: "Precedent study image 01" },
+  precedent02: { src: precedentImage02, alt: "Precedent study image 02" },
+  precedent03: { src: precedentImage03, alt: "Precedent study image 03" },
+  collage01: { src: collageImage01, alt: "Collage study image 01" },
+  collage02: { src: collageImage02, alt: "Collage study image 02" },
+  collage03: { src: collageImage03, alt: "Collage study image 03" },
+  groundFloorPlan: { src: groundFloorPlanImage, alt: "Ground floor plan" },
+  axon: { src: axonImage, alt: "Axonometric view" },
+  courtyard: { src: courtyardImage, alt: "Courtyard view" },
+  circulation01: { src: circulationImage01, alt: "Circulation study image 01" },
+  circulation02: { src: circulationImage02, alt: "Circulation study image 02" },
+  section: { src: sectionImage, alt: "A-A section" },
+  elevation01: {
+    src: elevationImage01,
+    alt: "Elevation 01",
+    caption: "Elevation 01.",
+  },
+  elevation02: {
+    src: elevationImage02,
+    alt: "Elevation 02",
+    caption: "Elevation 02.",
+  },
+  chunkModel: {
+    src: chunkModelImage,
+    alt: "Chunk model",
+  },
+  northernBar: {
+    src: northernBarImage,
+    alt: "Northern bar",
+  },
+  southernBar: {
+    src: southernBarImage,
+    alt: "Southern bar",
+  },
+  pluginModel01: {
+    src: pluginModelImage01,
+    alt: "Urban context model 01",
+  },
+  pluginModel02: {
+    src: pluginModelImage02,
+    alt: "Urban context model 02",
+  },
+  pluginModel03: {
+    src: pluginModelImage03,
+    alt: "Urban context model 03",
+  },
+  pluginModel04: {
+    src: pluginModelImage04,
+    alt: "Urban context model 04",
+  },
+} satisfies Record<string, ProjectImage>;
+
+const publicationFigures = {
+  hero: { images: [projectImages.hero] },
+  overview: {
+    layout: "single",
+    images: [projectImages.overview],
+  },
+  site: {
+    layout: "three",
+    images: [projectImages.site01, projectImages.site02, projectImages.site03],
+    caption: "Hard boundary and soft boundary.",
+    includeInGallery: false,
+  },
+  precedent: {
+    layout: "three",
+    images: [
+      projectImages.precedent01,
+      projectImages.precedent02,
+      projectImages.precedent03,
+    ],
+    caption: "Olin Library proposal spatial logic.",
+    includeInGallery: false,
+  },
+  collage: {
+    layout: "three",
+    images: [projectImages.collage01, projectImages.collage02, projectImages.collage03],
+    caption: "Collage iterations.",
+  },
+  groundFloorPlan: {
+    layout: "single",
+    images: [projectImages.groundFloorPlan],
+    caption: "Ground floor plan.",
+  },
+  section: {
+    layout: "single",
+    images: [projectImages.section],
+    caption: "A-A section.",
+  },
+  galleryElevations: {
+    layout: "two",
+    images: [
+      projectImages.elevation01,
+      projectImages.elevation02,
+    ],
+  },
+  bars: {
+    layout: "two",
+    images: [projectImages.northernBar, projectImages.southernBar],
+    caption: "Northern and southern bars.",
+  },
+  designDevelopment: {
+    layout: "three",
+    equalHeight: true,
+    images: [
+      projectImages.courtyard,
+      projectImages.circulation01,
+      projectImages.circulation02,
+    ],
+    caption: "Central courtyard and circulation.",
+  },
+  axon: {
+    layout: "single",
+    images: [projectImages.axon],
+    caption: "South-east axonometric view.",
+  },
+  proposalModels: {
+    layout: "two",
+    images: [projectImages.pluginModel01, projectImages.pluginModel02],
+    caption: "Urban context.",
+  },
+  galleryPluginModels: {
+    layout: "two",
+    images: [projectImages.pluginModel03, projectImages.pluginModel04],
+  },
+  galleryChunkModel: {
+    layout: "single",
+    images: [projectImages.chunkModel],
+  },
+} satisfies Record<string, ProjectFigureGroupData>;
+
+const galleryImages = collectProjectGalleryImages(Object.values(publicationFigures));
+
+const projectData = {
+  heroLayout: "full" as const,
+};
 ---
 
 <BaseLayout
   title="Soft Edges, Hard Grids | Yu-Shan Lin"
   description="Soft Edges, Hard Grids — an architectural project by Yu-Shan Lin."
 >
-  <main class="placeholder-page">
-    <Placeholder message="In progress." />
-  </main>
+  <ProjectPage
+    title="Soft Edges, Hard Grids"
+    date="Spring 2026"
+    dateTime="2026"
+    currentLanguage="en"
+    englishHref="/projects/soft-edges-hard-grids"
+    chineseHref="/projects/soft-edges-hard-grids-zh"
+    galleryImages={galleryImages}
+    galleryFolder="soft-edges-hard-grids"
+  >
+    <ProjectMetadata slot="metadata" items={metadata} />
+
+    <ProjectHero
+      slot="hero"
+      image={projectImages.hero.src}
+      heroLayout={projectData.heroLayout}
+      alt={projectImages.hero.alt}
+      caption={projectImages.hero.caption}
+    >
+      <EditorsNote>How can a library mediate between two conflicting urban grids?<br /><br />This project explores architecture as a spatial gradient between two urban systems, informed by the tension between rigid urban order and softer environmental boundaries.</EditorsNote>
+    </ProjectHero>
+
+    <h2 class="type-nav">Overview</h2>
+    <ProjectFigureGroup {...publicationFigures.overview} />
+    <p>The project begins with the collision of two urban grids along Baltimore Pike, producing a wedge-shaped site. Through site analysis focused on nature, I came to understand this condition as a continuous tension between rigid urban order and softer environmental boundaries, where landscape is compressed and reappears as pockets.</p>
+    <p>Rather than resolving this condition, the project proposes a library that mediates between the two urban systems through spatial organization.</p>
+
+    <h2 class="type-nav">Site</h2>
+    <ProjectFigureGroup {...publicationFigures.site} />
+    <p>The site is defined by two contrasting urban grids. The northern grid is more rigid, while the southern grid is more flexible, creating a gradual transition across the site. Instead of treating these conditions as opposing systems, the project responds to their relationship as a spatial gradient that informs the overall organization of the library.</p>
+
+    <h2 class="type-nav">Precedent</h2>
+    <ProjectFigureGroup {...publicationFigures.precedent} />
+    <p>For the precedent study, I looked at Louis Kahn’s Olin Library, focusing on how the grid operates as an ordering system and how moments that depart from it—such as landscape and double-height spaces—help construct spatial logic.</p>
+    <ProjectFigureGroup {...publicationFigures.collage} />
+    <p>These observations became the starting point for a series of collage studies exploring relationships between order, landscape, and movement.</p>
+
+    <h2 class="type-nav">Design Development</h2>
+    <ProjectFigureGroup {...publicationFigures.groundFloorPlan} />
+    <ProjectFigureGroup {...publicationFigures.section} />
+    <p>Responding to the site’s two urban grids, the proposal introduces two sets of bars aligned with their respective orientations. Positioned at three different elevations across the sloped site, the bars reinforce the gradual transition established by the surrounding urban fabric.</p>
+    <ProjectFigureGroup {...publicationFigures.bars} />
+    <p>The northern bar is more enclosed and quiet, containing book stacks together with double- and triple-height reading rooms. Narrow vertical openings filter natural light into these spaces. The middle bar accommodates administration and reading areas, while the southern bar becomes increasingly open and public, supporting more flexible and social uses through large floor-to-ceiling glazing that responds to the openness of the second grid.</p>
+    <ProjectFigureGroup {...publicationFigures.designDevelopment} />
+    <p>At the center of the project, a ring of circulation and a wedge-shaped courtyard organize the relationship between the two bar systems. This condition of slippage negotiates between the two grid orientations, bringing daylight, circulation, and public activity into the heart of the building.</p>
+    <ProjectFigureGroup {...publicationFigures.axon} />
+
+    <h2 class="type-nav">Proposal</h2>
+    <ProjectFigureGroup {...publicationFigures.proposalModels} />
+    <p>Ultimately, the proposal constructs a library that mediates between two urban systems. Through the gradual transition between the two grids, the project establishes a spatial framework that balances enclosure and openness, structure and landscape.</p>
+  </ProjectPage>
 </BaseLayout>
-
-<style>
-  .placeholder-page {
-    position: fixed;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    width: 100%;
-    height: 100%;
-    padding: var(--page-padding);
-    pointer-events: none;
-  }
-
-  .placeholder-page :global(*) {
-    pointer-events: auto;
-  }
-</style>
